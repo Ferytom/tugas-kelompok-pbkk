@@ -20,6 +20,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+foreach (scandir($path = "app/Http/Module") as $dir) {
+    if (file_exists($filepath = "{$path}/{$dir}/Presentation/routes/web.php")) {
+        require $filepath;
+    }
+}
+/*
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
     Route::view('/about', 'about')->name('about');
@@ -57,5 +63,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ]);
     });
 });
-
+*/
 require __DIR__ . '/auth.php';
