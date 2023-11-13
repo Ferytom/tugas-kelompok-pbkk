@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Events\ModelEvent;
-use App\Listeners\LogModelEvent;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,10 +25,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Event::listen(
-            ModelEvent::class,
-            [LogModelEvent::class, 'handle']
-        );
+        //
     }
 
     /**
@@ -38,6 +33,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function shouldDiscoverEvents(): bool
     {
-        return true;
+        return false;
     }
 }
