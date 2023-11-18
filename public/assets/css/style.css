@@ -41,7 +41,7 @@ body {
 }
 
 .menu-bar ul li {
-    padding: 10px;
+    padding: 5px;
     transition: opacity 0.3s ease;
 }
 
