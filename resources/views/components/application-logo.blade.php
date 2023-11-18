@@ -1,1 +1,1 @@
-<img src="{{asset('assets/img/company-logo.png')}}" alt="Papercup Logo">
+<img src="{{asset('assets/img/company-logo.png')}}" alt="Company Logo">

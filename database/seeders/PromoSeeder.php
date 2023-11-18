@@ -21,5 +21,12 @@ class PromoSeeder extends Seeder
         ]);
 
         Promo::factory(3)->create();
+        
+        Promo::factory()->create([
+            'detail' => 'Contoh Expired',
+            'persenDiskon' => 20,
+            'maxDiskon' => 300000,
+            'expired' => '1999-12-31',
+        ]);
     }
 }

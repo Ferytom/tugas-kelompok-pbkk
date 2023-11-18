@@ -17,7 +17,7 @@ class MenuSeeder extends Seeder
             'nama' => 'Nasi Goreng',
             'harga' => 25000,
             'deskripsi' => 'Deskripsi Nasi Goreng',
-            'pathFoto' => 'assets/img/nasi-goreng.jpeg',
+            'pathFoto' => 'nasi-goreng.jpeg',
         ]);
     }
 }

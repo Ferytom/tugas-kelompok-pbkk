@@ -106,6 +106,7 @@ body {
     border-radius: 4px;
     margin-top: 20px;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .form-container {
@@ -239,4 +240,169 @@ body {
 
 .menu-card a {
     margin-top: 10px;
+}
+
+.a button {
+    display: block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    width: 100%;
+    text-align: center;
+}
+
+.btn {
+    text-align: center;
+    text-transform: capitalize;
+    --bg-opacity: 1;
+    background-color: #b2f5ea;
+    background-color: rgba(178, 245, 234, var(--bg-opacity));
+    display: block;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    border-radius: 0.25rem;
+    --text-opacity: 1;
+    color: #319795;
+    color: rgba(49, 151, 149, var(--text-opacity));
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms
+}
+
+.btn:hover {
+    --bg-opacity: 1;
+    background-color: #81e6d9;
+    background-color: rgba(129, 230, 217, var(--bg-opacity));
+    --text-opacity: 1;
+    color: #285e61;
+    color: rgba(40, 94, 97, var(--text-opacity))
+}
+
+.btn-indigo {
+    text-align: center;
+    text-transform: capitalize;
+    --bg-opacity: 1;
+    background-color: #667eea;
+    background-color: rgba(102, 126, 234, var(--bg-opacity));
+    --text-opacity: 1;
+    color: #ebf4ff;
+    color: rgba(235, 244, 255, var(--text-opacity));
+    display: block;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    border-radius: 0.25rem;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms
+}
+
+.btn-indigo:hover {
+    --bg-opacity: 1;
+    background-color: #5a67d8;
+    background-color: rgba(90, 103, 216, var(--bg-opacity));
+    --text-opacity: 1;
+    color: #c3dafe;
+    color: rgba(195, 218, 254, var(--text-opacity))
+}
+
+.btn-info {
+    text-align: center;
+    text-transform: capitalize;
+    --bg-opacity: 1;
+    background-color: #faf089;
+    background-color: rgba(250, 240, 137, var(--bg-opacity));
+    --text-opacity: 1;
+    color: #d69e2e;
+    color: rgba(214, 158, 46, var(--text-opacity));
+    display: block;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    border-radius: 0.25rem;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms
+}
+
+.btn-info:hover {
+    --bg-opacity: 1;
+    background-color: #f6e05e;
+    background-color: rgba(246, 224, 94, var(--bg-opacity));
+    --text-opacity: 1;
+    color: #d69e2e;
+    color: rgba(214, 158, 46, var(--text-opacity))
+}
+
+.btn-danger {
+    text-align: center;
+    text-transform: capitalize;
+    --bg-opacity: 1;
+    background-color: #feb2b2;
+    background-color: rgba(254, 178, 178, var(--bg-opacity));
+    --text-opacity: 1;
+    color: #e53e3e;
+    color: rgba(229, 62, 62, var(--text-opacity));
+    display: block;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    border-radius: 0.25rem;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms
+}
+
+.btn-danger:hover {
+    --bg-opacity: 1;
+    background-color: #fc8181;
+    background-color: rgba(252, 129, 129, var(--bg-opacity));
+    --text-opacity: 1;
+    color: #e53e3e;
+    color: rgba(229, 62, 62, var(--text-opacity))
+}
+
+.btn-gray {
+    text-align: center;
+    text-transform: capitalize;
+    --bg-opacity: 1;
+    background-color: #f7fafc;
+    background-color: rgba(247, 250, 252, var(--bg-opacity));
+    border-width: 1px;
+    --border-opacity: 1;
+    border-color: #e2e8f0;
+    border-color: rgba(226, 232, 240, var(--border-opacity));
+    display: block;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    border-radius: 0.25rem;
+    --text-opacity: 1;
+    color: #718096;
+    color: rgba(113, 128, 150, var(--text-opacity));
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms
+}
+
+.btn-gray:hover {
+    --bg-opacity: 1;
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, var(--bg-opacity));
+    --text-opacity: 1;
+    color: #2d3748;
+    color: rgba(45, 55, 72, var(--text-opacity));
+    border-width: 1px;
+    --border-opacity: 1;
+    border-color: #e2e8f0;
+    border-color: rgba(226, 232, 240, var(--border-opacity))
 }
