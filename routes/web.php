@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromoController;
@@ -41,6 +43,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/promo/edit/{id}', [PromoController::class, 'edit'])->name('promo.edit');
         Route::put('/promo/edit/{id}', [PromoController::class, 'update'])->name('promo.update');
         Route::delete('/promo/{id}', [PromoController::class, 'destroy'])->name('promo.destroy');
+
+        Route::get('/member', [MemberController::class, 'index'])->name('member.index');
+
+        Route::get('/employee', [EmployeeController::class, 'index'])->name('employee.index');
+        Route::get('/employee/create', [EmployeeController::class, 'create'])->name('employee.create');
+        Route::post('/employee', [EmployeeController::class, 'store'])->name('employee.store');
+        Route::get('/employee/edit/{id}', [EmployeeController::class, 'edit'])->name('employee.edit');
+        Route::put('/employee/edit/{id}', [EmployeeController::class, 'update'])->name('employee.update');
+        Route::delete('/employee/{id}', [EmployeeController::class, 'destroy'])->name('employee.destroy');
     });    
 
     Route::middleware('staff')->group(function () {
