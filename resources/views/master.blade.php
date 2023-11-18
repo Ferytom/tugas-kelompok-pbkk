@@ -101,8 +101,22 @@
 
                 @if (Auth::user()->role == 'pemilik')
                     <li><a href='report.php'>Report</a></li>
-                    <li><a href='employee-list.php'>Employee List</a></li>
-                    <li><a href='member-list.php'>Member List</a></li>
+                    <li>
+                        @if (Request::is('employee*'))
+                            <a href="{{ route('employee.index') }}"><p style="font-size: 150%; margin-left:10px;">Employee List</p></a>
+                        @endif
+                        @if (!Request::is('employee*'))
+                            <a href="{{ route('employee.index') }}"><p>Employee List</p></a>
+                        @endif
+                    </li>
+                    <li>
+                        @if (Request::is('member*'))
+                            <a href="{{ route('member.index') }}"><p style="font-size: 150%; margin-left:10px;">Member List</p></a>
+                        @endif
+                        @if (!Request::is('member*'))
+                            <a href="{{ route('member.index') }}"><p>Member List</p></a>
+                        @endif
+                    </li>
                 @endif
             @endif
             <li><a href='review-list.php'>Reviews</a></li>

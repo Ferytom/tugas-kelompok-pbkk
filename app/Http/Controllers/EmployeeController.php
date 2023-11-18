@@ -31,18 +31,17 @@ class EmployeeController extends Controller
             'nama' => 'required|max:255',
             'noTelepon' => 'required',
             'alamat' => 'required',
-            'email' => 'required|unique|email',
-            'password' => 'required|min:8',
+            'email' => 'required|unique:users,email|email',
         ]);
 
         $this->formData['nama'] = $request->input('nama');
         $this->formData['noTelepon'] = $request->input('noTelepon');
         $this->formData['alamat'] = $request->input('alamat');
         $this->formData['email'] = $request->input('email');
-        $this->formData['password'] = Hash::make($request->input('password'));
+        $this->formData['password'] = Hash::make('password');
         if($request->input('role'))
         {
-            $this->formData['email'] = $request->input('role');
+            $this->formData['role'] = $request->input('role');
         }
         else
         {
@@ -100,6 +99,6 @@ class EmployeeController extends Controller
 
         Cache::forget('employees');
     
-        return redirect()->route('menu.index')->with('success', 'Employee deleted successfully');
+        return redirect()->route('employee.index')->with('success', 'Employee deleted successfully');
     }
 }

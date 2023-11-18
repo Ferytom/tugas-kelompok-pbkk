@@ -14,7 +14,8 @@ class MemberController extends Controller
     public function index()
     {
         $members = Cache::remember('members', 120, function () {
-            return User::where('role', '==', 'pelanggan')->get();
+            return User::where('role', '=', 'pelanggan')->get();
+            //return User::all();
         });
         
         return view('member.index', compact('members'));
