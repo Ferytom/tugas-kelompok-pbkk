@@ -89,7 +89,14 @@
                 </li>
 
                 @if (Auth::user()->role != 'pelanggan')
-                    <li><a href='waitlist.php'>Wait List</a></li>
+                    <li>
+                        @if (Request::is('waitlist*'))
+                            <a href="{{ route('waitlist.index') }}"><p style="font-size: 150%; margin-left:10px;">Waiting List</p></a>
+                        @endif
+                        @if (!Request::is('waitlist*'))
+                            <a href="{{ route('waitlist.index') }}"><p>Waiting List</p></a>
+                        @endif
+                    </li>
                 @endif
 
                 @if (Auth::user()->role == 'pemilik')

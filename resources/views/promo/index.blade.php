@@ -1,5 +1,12 @@
 @extends('master')
 @section('content')
+    @if (session('success'))
+            <div class="alert alert-success mt-5 flex justify-between">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert"
+                    onclick="this.parentElement.remove();">{{ 'x' }}</button>
+            </div>
+    @endif
     <h1>Promo List</h1>
         <h3>Active Promo</h3>
         <table class="data-table">
@@ -25,7 +32,11 @@
                             <td>
                                 <div class="flex flex-row">
                                     <a href="{{ route('promo.edit', $promo->id) }}" class="btn-info mr-2">Edit</a>
-                                    <a href="{{ route('promo.destroy', $promo->id) }}" type="submit" class="btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                                    <form action="{{ route('promo.destroy', $promo->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                    </form>
                                 </div>
                             </td>
                         @endif

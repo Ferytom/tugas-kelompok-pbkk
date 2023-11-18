@@ -17,7 +17,11 @@
                                         <div class='price'> Rp {{ $menu->harga }} </div>
                                         @if ((Auth::check()) && (Auth::user()->role == 'pemilik'))
                                                 <a href="{{ route('menu.edit', $menu->id) }}" class="btn-info mr-2">Edit</a>
-                                                <a href="{{ route('menu.destroy', $menu->id) }}" type="submit" class="btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                                                <form action="{{ route('menu.destroy', $menu->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                                </form>
                                         @endif
                                 </div>
                         </div>

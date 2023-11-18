@@ -3,6 +3,7 @@
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromoController;
+use App\Http\Controllers\WaitlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +42,13 @@ Route::middleware('auth')->group(function () {
         Route::put('/promo/edit/{id}', [PromoController::class, 'update'])->name('promo.update');
         Route::delete('/promo/{id}', [PromoController::class, 'destroy'])->name('promo.destroy');
     });    
+
+    Route::middleware('staff')->group(function () {
+        Route::get('/waitlist', [WaitlistController::class, 'index'])->name('waitlist.index');
+        Route::get('/waitlist/create', [WaitlistController::class, 'create'])->name('waitlist.create');
+        Route::post('/waitlist', [WaitlistController::class, 'store'])->name('waitlist.store');
+        Route::delete('/waitlist/{id}', [WaitlistController::class, 'destroy'])->name('waitlist.destroy');
+    });
 });
 
 require __DIR__.'/auth.php';
