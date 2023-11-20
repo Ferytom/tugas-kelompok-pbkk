@@ -23,8 +23,8 @@ class TransactionFactory extends Factory
             'statusTransaksi' => 'Belum Dimulai',
             'isReservasi' => true,
             'promo_id' => 1,
-            'user_id' => 4,
-            'location_id' => 1,
+            'user_id' => fake()->numberBetween(4,6),
+            'location_id' => fake()->numberBetween(1,3),
             'employee_id' => 1,
         ];
     }
@@ -92,9 +92,9 @@ class TransactionFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             $currentYear = date('Y');
-            $firstDayTimestamp = mktime(0, 0, 0, 10, 1, $currentYear);
+            $firstDayTimestamp = mktime(0, 0, 0, 11, 1, $currentYear);
             $currentTimestamp = time();
-            $lastDayTimestamp = mktime(0, 0, 0, 10, date('t', $firstDayTimestamp), $currentYear);
+            $lastDayTimestamp = mktime(0, 0, 0, 11, date('t', $firstDayTimestamp), $currentYear);
 
             $randomTimestamp = rand($currentTimestamp, $lastDayTimestamp);
             $randomTime = date('Y-m-d H:i:s', $randomTimestamp);

@@ -17,15 +17,15 @@ class ReservationController extends Controller
     {
         $completed_reservations = Cache::remember('completed_reservations', 120, function () {
             $current_date = Carbon::now();
-            return Transaction::where('waktu', '<', $current_date)->where('statusTransaksi', '=', 'Selesai')->where('isReservasi', '=', True)->get();
+            return Transaction::where('waktu', '<', $current_date)->where('statusTransaksi', '=', 'Selesai')->where('isReservasi', '=', True)->orderBy('waktu')->get();
         });
         $ongoing_reservations = Cache::remember('ongoing_reservations', 120, function () {
-            $current_date = Carbon::now()->format('Y-m-d');
-            return Transaction::where('waktu', '>=', $current_date)->where('isReservasi', '=', True)->get();
+            $current_date = Carbon::now();
+            return Transaction::where('waktu', '>=', $current_date)->where('isReservasi', '=', True)->orderBy('waktu')->get();
         });
         $expired_reservations = Cache::remember('expired_reservations', 120, function () {
             $current_date = Carbon::now();
-            return Transaction::where('waktu', '<', $current_date)->where('statusTransaksi', '!=', 'Selesai')->where('isReservasi', '=', True)->get();
+            return Transaction::where('waktu', '<', $current_date)->where('statusTransaksi', '!=', 'Selesai')->where('isReservasi', '=', True)->orderBy('waktu')->get();
         });
 
         foreach($completed_reservations as $reservation)
