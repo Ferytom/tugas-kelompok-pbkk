@@ -15,6 +15,7 @@ class Transaction extends Model
         'statusTransaksi',
         'promo_id',
         'user_id',
+        'location_id',
     ];
 
     public function promo()

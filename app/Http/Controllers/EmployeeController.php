@@ -23,8 +23,11 @@ class EmployeeController extends Controller
             $location = Location::findOrFail($employee->location_id);
             $employee->location_address = $location->alamat;
         }
+        $locations = Cache::remember('locations', 120, function () {
+            return Location::all();
+        });
         
-        return view('employee.index', compact('employees'));
+        return view('employee.index', compact('employees', 'locations'));
     }
 
     public function create()

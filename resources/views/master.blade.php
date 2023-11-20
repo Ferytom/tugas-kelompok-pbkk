@@ -24,7 +24,7 @@
 <body>
     <div class="top-bar">
         @if(Auth::check())
-            <a href='notification.php'>
+            <a href="{{ route('notification.index') }}">
                 <img src="{{asset('assets/img/notification-bell.png')}}" alt='Notification Icon'>
             </a>
             <p>Hi, {{ Auth::user()->nama }} | </p>
@@ -81,11 +81,21 @@
             @if (Auth::check())
                 <li>Reservations
                     <ul>
-                        <li><a href='reservation-list.php'>Reservation List</a></li>
-                        @if (Auth::user()->role == 'Pelanggan')
-                            <li><a href='create-reservation.php'>Make a Reservation</a></li>
+                        @if (Request::is('reservation'))
+                            <a href="{{ route('reservation.index') }}"><p style="font-size: 150%; margin-left:10px;">Reservation List</p></a>
+                        @endif
+                        @if (!Request::is('reservation'))
+                            <a href="{{ route('reservation.index') }}"><p>Reservation List</p></a>
                         @endif
                     </ul>
+                    @if (Auth::user()->role == 'pelanggan')
+                        @if (Request::is('reservation/*'))
+                            <a href="{{ route('reservation.create') }}"><p style="font-size: 150%; margin-left:10px;">Make a Reservation</p></a>
+                        @endif
+                        @if (!Request::is('reservation/*'))
+                            <a href="{{ route('reservation.create') }}"><p>Make a Reservation</p></a>
+                        @endif
+                    @endif
                 </li>
 
                 @if (Auth::user()->role != 'pelanggan')

@@ -3,8 +3,10 @@
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromoController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\WaitlistController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +32,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/reservation', [ReservationController::class, 'index'])->name('reservation.index');
+    Route::get('/reservation/create', [ReservationController::class, 'create'])->name('reservation.create');
+    Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
+    Route::get('/reservation/edit/{id}', [ReservationController::class, 'edit'])->name('reservation.edit');
+    Route::put('/reservation/edit{id}', [ReservationController::class, 'update'])->name('reservation.update');
+    Route::delete('/reservation/{id}', [ReservationController::class, 'destroy'])->name('reservation.destroy');
 
     Route::middleware('pemilik')->group(function () {
         Route::get('/menu/create', [MenuController::class, 'create'])->name('menu.create');
@@ -59,6 +68,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/waitlist/create', [WaitlistController::class, 'create'])->name('waitlist.create');
         Route::post('/waitlist', [WaitlistController::class, 'store'])->name('waitlist.store');
         Route::delete('/waitlist/{id}', [WaitlistController::class, 'destroy'])->name('waitlist.destroy');
+
+        Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
     });
 });
 
