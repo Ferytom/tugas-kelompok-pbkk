@@ -15,7 +15,7 @@
                     <th>Time</th>
                     <th>User</th>
                     <th>Total Price</th>
-                    <th>Address</th>
+                    <th>Location</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -49,7 +49,7 @@
                     <th>Time</th>
                     <th>User</th>
                     <th>Total Price</th>
-                    <th>Address</th>
+                    <th>Location</th>
                 </tr>
             </thead>
             <tbody id="data-table-body">
@@ -71,7 +71,7 @@
                     <th>Time</th>
                     <th>User</th>
                     <th>Total Price</th>
-                    <th>Address</th>
+                    <th>Location</th>
                 </tr>
             </thead>
             <tbody id="data-table-body">
