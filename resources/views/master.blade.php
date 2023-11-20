@@ -110,7 +110,14 @@
                 @endif
 
                 @if (Auth::user()->role == 'pemilik')
-                    <li><a href='report.php'>Report</a></li>
+                    <li>
+                        @if (Request::is('report*'))
+                            <a href="{{ route('report.index') }}"><p style="font-size: 150%; margin-left:10px;">Report</p></a>
+                        @endif
+                        @if (!Request::is('report*'))
+                            <a href="{{ route('report.index') }}"><p>Report</p></a>
+                        @endif
+                    </li>
                     <li>
                         @if (Request::is('employee*'))
                             <a href="{{ route('employee.index') }}"><p style="font-size: 150%; margin-left:10px;">Employee List</p></a>

@@ -21,6 +21,7 @@ class TransactionFactory extends Factory
             'keterangan' => '',
             'hargaTotal' => 100000,
             'statusTransaksi' => 'Selesai',
+            'isReservasi' => True,
             'promo_id' => 1,
             'user_id' => 1,
             'location_id' => 1,

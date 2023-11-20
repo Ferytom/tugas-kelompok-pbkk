@@ -6,6 +6,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromoController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\WaitlistController;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +62,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/employee/edit/{id}', [EmployeeController::class, 'edit'])->name('employee.edit');
         Route::put('/employee/edit/{id}', [EmployeeController::class, 'update'])->name('employee.update');
         Route::delete('/employee/{id}', [EmployeeController::class, 'destroy'])->name('employee.destroy');
+
+        Route::get('/report', [ReportController::class, 'index'])->name('report.index');
+        Route::get('/report/daily', [ReportController::class, 'daily'])->name('report.daily');
+        Route::get('/report/monthly', [ReportController::class, 'monthly'])->name('report.monthly');
     });    
 
     Route::middleware('staff')->group(function () {
