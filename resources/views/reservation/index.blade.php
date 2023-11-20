@@ -29,6 +29,7 @@
                         <td>
                             <div class="flex flex-row">
                                 <a href="{{ route('reservation.edit', $reservation->id) }}" class="btn-info mr-2">Edit</a>
+                                <a href="{{ route('reservation.detail', $reservation->id) }}" class="btn-indigo mr-2">Detail</a>
                                 <form action="{{ route('reservation.destroy', $reservation->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
