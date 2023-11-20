@@ -28,6 +28,7 @@ class UserSeeder extends Seeder
             'email' => 'pemilik1@example.com',
             'role' => 'pemilik',
             'password' => Hash::make('password'),
+            'location_id' => 1,
         ]);
         
         User::factory()->create([
@@ -36,6 +37,7 @@ class UserSeeder extends Seeder
             'email' => 'karyawan1@example.com',
             'role' => 'karyawan',
             'password' => Hash::make('password'),
+            'location_id' => 1,
         ]);
 
         User::factory(3)->create();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Location;
 use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -16,13 +17,22 @@ class EmployeeController extends Controller
         $employees = Cache::remember('employees', 120, function () {
             return User::where('role', '!=', 'pelanggan')->get();
         });
+
+        foreach($employees as $employee)
+        {
+            $location = Location::findOrFail($employee->location_id);
+            $employee->location_address = $location->alamat;
+        }
         
         return view('employee.index', compact('employees'));
     }
 
     public function create()
     {
-        return view ('employee.create');
+        $locations = Cache::remember('locations', 120, function () {
+            return Location::all();
+        });
+        return view ('employee.create', compact('locations'));
     }
 
     public function store(Request $request)
@@ -39,6 +49,14 @@ class EmployeeController extends Controller
         $this->formData['alamat'] = $request->input('alamat');
         $this->formData['email'] = $request->input('email');
         $this->formData['password'] = Hash::make('password');
+        if($request->input('location_id'))
+        {
+            $this->formData['location_id'] = $request->input('location_id');
+        }
+        else
+        {
+            $this->formData['location_id'] = 1;
+        }
         if($request->input('role'))
         {
             $this->formData['role'] = $request->input('role');
@@ -84,6 +102,10 @@ class EmployeeController extends Controller
         if ($request->input('role'))
         {
             $employee->role = $request->input('role');
+        }
+        if($request->input('location_id'))
+        {
+            $employee->location_id = $request->input('location_id');
         }
         
         $employee->save();

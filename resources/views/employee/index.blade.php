@@ -7,7 +7,7 @@
                     onclick="this.parentElement.remove();">{{ 'x' }}</button>
             </div>
     @endif
-    <h1>Member List</h1>
+    <h1>Employee List</h1>
     <table class="data-table">
         <thead>
             <tr>
@@ -16,6 +16,7 @@
                 <th>Alamat</th>
                 <th>Email</th>
                 <th>Role</th>
+                <th>Location</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -26,7 +27,8 @@
                     <td>{{ $employee->noTelepon }}</td>
                     <td>{{ $employee->alamat }}</td>
                     <td>{{ $employee->email }}</td> 
-                    <td>{{ $employee->role }}</td>                   
+                    <td>{{ $employee->role }}</td>   
+                    <td>{{ $employee->location_address }}</td>                   
                     <td>
                         @if($employee->role != 'pemilik')
                         <form action="{{ route('employee.destroy', $employee->id) }}" method="POST">

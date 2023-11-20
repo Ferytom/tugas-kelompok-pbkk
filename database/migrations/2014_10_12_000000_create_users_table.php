@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('role')->default('pelanggan');
             $table->timestamp('email_verified_at')->nullable();
+            $table->foreignId('location_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

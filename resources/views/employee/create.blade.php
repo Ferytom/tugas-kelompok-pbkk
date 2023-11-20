@@ -39,6 +39,18 @@
                 @enderror
             </div>
 
+            <div class="location-container" style="padding-bottom: 10px">
+                <label for="location_id">Role: </label>
+                <select id="location_id" name="location_id">
+                    @foreach($locations as $location)
+                        <option value="{{$location->id}}">{{$location->alamat}}</option>
+                    @endforeach
+                </select>
+                @error('location_id')
+                    <span class="text-xs text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
+
             <button type="submit">Create Employee</button>
         </form>
     </div>

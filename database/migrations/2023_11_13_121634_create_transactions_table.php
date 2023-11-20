@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('statusTransaksi');
             $table->foreignId('promo_id');
             $table->foreignId('user_id');
+            $table->foreignId('location_id');
+            $table->foreignId('employee_id');
             $table->timestamps();
         });
     }

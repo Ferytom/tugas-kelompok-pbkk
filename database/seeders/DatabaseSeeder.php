@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             TransactionSeeder::class,
             UserSeeder::class,
             WaitlistSeeder::class,
+            LocationSeeder::class,
         ]);
     }
 }

@@ -23,6 +23,8 @@ class TransactionFactory extends Factory
             'statusTransaksi' => 'Selesai',
             'promo_id' => 1,
             'user_id' => 1,
+            'location_id' => 1,
+            'employee_id' => 1,
         ];
     }
 }
