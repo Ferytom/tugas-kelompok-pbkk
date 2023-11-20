@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Carbon\Carbon;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Transaction>
@@ -42,7 +43,7 @@ class TransactionFactory extends Factory
             $lastDayTimestamp = mktime(0, 0, 0, 10, date('t', $firstDayTimestamp), $currentYear);
 
             $randomTimestamp = rand($firstDayTimestamp, $lastDayTimestamp);
-            $randomTime = date('Y-m-d H:i:s', $randomTimestamp);
+            $randomTimestamp = Carbon::createFromTimestamp($randomTimestamp, 'UTC')->setTimezone('Asia/Bangkok')->addHours(7);
 
             $statusTransaksi = 'Selesai';
             if (rand(0, 9) === 0) {
@@ -51,7 +52,7 @@ class TransactionFactory extends Factory
 
             return [
                 'statusTransaksi' => $statusTransaksi,
-                'waktu' => $randomTime,
+                'waktu' => $this->formatTimestampInRange($randomTimestamp),
             ];
         });
     }
@@ -69,7 +70,7 @@ class TransactionFactory extends Factory
             $currentTimestamp = time();
 
             $randomTimestamp = rand($firstDayTimestamp, $currentTimestamp);
-            $randomTime = date('Y-m-d H:i:s', $randomTimestamp);
+            $randomTimestamp = Carbon::createFromTimestamp($randomTimestamp, 'UTC')->setTimezone('Asia/Bangkok')->addHours(7);
 
             $statusTransaksi = 'Selesai';
             if (rand(0, 9) === 0) {
@@ -78,7 +79,7 @@ class TransactionFactory extends Factory
 
             return [
                 'statusTransaksi' => $statusTransaksi,
-                'waktu' => $randomTime,
+                'waktu' => $this->formatTimestampInRange($randomTimestamp),
             ];
         });
     }
@@ -97,11 +98,19 @@ class TransactionFactory extends Factory
             $lastDayTimestamp = mktime(0, 0, 0, 11, date('t', $firstDayTimestamp), $currentYear);
 
             $randomTimestamp = rand($currentTimestamp, $lastDayTimestamp);
-            $randomTime = date('Y-m-d H:i:s', $randomTimestamp);
+            $randomTimestamp = Carbon::createFromTimestamp($randomTimestamp, 'UTC')->setTimezone('Asia/Bangkok')->addHours(7);
 
             return [
-                'waktu' => $randomTime,
+                'waktu' => $this->formatTimestampInRange($randomTimestamp),
             ];
         });
     }
+
+    private function formatTimestampInRange(Carbon $timestamp): string
+    {
+        $timestamp = $timestamp->setHour(rand(8, 22))->setMinute(rand(0, 59))->setSecond(rand(0, 59));
+
+        return $timestamp->format('Y-m-d H:i:s');
+    }
+
 }

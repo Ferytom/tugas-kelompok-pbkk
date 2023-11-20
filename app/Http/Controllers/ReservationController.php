@@ -16,15 +16,15 @@ class ReservationController extends Controller
     public function index()
     {
         $completed_reservations = Cache::remember('completed_reservations', 120, function () {
-            $current_date = Carbon::now();
+            $current_date = Carbon::now('Asia/Bangkok');
             return Transaction::where('waktu', '<', $current_date)->where('statusTransaksi', '=', 'Selesai')->where('isReservasi', '=', True)->orderBy('waktu')->get();
         });
         $ongoing_reservations = Cache::remember('ongoing_reservations', 120, function () {
-            $current_date = Carbon::now();
+            $current_date = Carbon::now('Asia/Bangkok');
             return Transaction::where('waktu', '>=', $current_date)->where('isReservasi', '=', True)->orderBy('waktu')->get();
         });
         $expired_reservations = Cache::remember('expired_reservations', 120, function () {
-            $current_date = Carbon::now();
+            $current_date = Carbon::now('Asia/Bangkok');
             return Transaction::where('waktu', '<', $current_date)->where('statusTransaksi', '!=', 'Selesai')->where('isReservasi', '=', True)->orderBy('waktu')->get();
         });
 
