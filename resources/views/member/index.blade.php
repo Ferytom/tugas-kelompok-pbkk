@@ -15,6 +15,10 @@
                 <th>No Telepon</th>
                 <th>Alamat</th>
                 <th>Email</th>
+                <th># Offline Trasaction</th>
+                <th># Completed Reservation</th>
+                <th># Expired Reservation</th>
+                <th># Ongoing Reservation</th>
             </tr>
         </thead>
         <tbody id="data-table-body">
@@ -24,6 +28,10 @@
                     <td>{{ $member->noTelepon }}</td>
                     <td>{{ $member->alamat }}</td>
                     <td>{{ $member->email }}</td>
+                    <td>{{ $member->offline_transaction }}</td>
+                    <td>{{ $member->completed_reservation }}</td>
+                    <td>{{ $member->expired_reservation }}</td>
+                    <td>{{ $member->ongoing_reservation }}</td>
                 </tr>
             @endforeach
         </tbody>
