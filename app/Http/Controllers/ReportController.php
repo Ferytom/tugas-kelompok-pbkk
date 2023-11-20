@@ -67,9 +67,32 @@ class ReportController extends Controller
     {
         $transactions = Cache::remember('transactions', 120, function () {
             $current_date = Carbon::now('Asia/Bangkok');
-            return Transaction::where('waktu', '<', $current_date)->where('statusTransaksi', '=', 'Selesai')->get();
+            return Transaction::where('waktu', '<', $current_date)->where('statusTransaksi', '=', 'Selesai')->orderBy('waktu')->get();
         });
-        return view('report.monthly', compact('transactions'));
+
+        // Group transactions by day
+        $groupedTransactions = $transactions->groupBy(function ($transaction) {
+            return Carbon::parse($transaction->waktu)->format('Y-m');
+        });
+
+        // Calculate total income for each day
+        $monthlyTotals = $groupedTransactions->map(function ($transactions) {
+            return $transactions->sum('hargaTotal');
+        });
+
+        // Attach additional information to each transaction
+        $groupedTransactions = $groupedTransactions->map(function ($transactions) {
+            foreach ($transactions as $transaction) {
+                $member = User::findOrFail($transaction->user_id);
+                $transaction->member = $member->nama;
+
+                $location = Location::findOrFail($transaction->location_id);
+                $transaction->address = $location->alamat;
+            }
+            return $transactions;
+        });
+
+        return view('report.monthly', compact('groupedTransactions', 'monthlyTotals'));
     }
 
     

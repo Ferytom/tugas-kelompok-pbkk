@@ -26,7 +26,6 @@ class TransactionFactory extends Factory
             'promo_id' => 1,
             'user_id' => fake()->numberBetween(4,6),
             'location_id' => fake()->numberBetween(1,3),
-            'employee_id' => 1,
         ];
     }
 

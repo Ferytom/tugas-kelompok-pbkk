@@ -28,13 +28,17 @@
                         <td>{{ $reservation->address }}</td>
                         <td>
                             <div class="flex flex-row">
-                                <a href="{{ route('reservation.edit', $reservation->id) }}" class="btn-info mr-2">Edit</a>
+                                @if($reservation->editable)
+                                    <a href="{{ route('reservation.edit', $reservation->id) }}" class="btn-info mr-2">Edit</a>
+                                @endif
                                 <a href="{{ route('reservation.detail', $reservation->id) }}" class="btn-indigo mr-2">Detail</a>
-                                <form action="{{ route('reservation.destroy', $reservation->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
-                                </form>
+                                @if($reservation->editable)
+                                    <form action="{{ route('reservation.destroy', $reservation->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                    </form>
+                                @endif
                             </div>
                         </td>
                     </tr>
