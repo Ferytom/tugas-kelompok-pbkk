@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 class ReservationController extends Controller
@@ -123,11 +124,6 @@ class ReservationController extends Controller
             },
             'total_price' => 'required|numeric',
             'notes' => 'nullable|string',
-            'menu_ids' => 'required|array',
-            'menu_ids.*' => 'exists:menus,id',
-            'quantities' => 'required|array',
-            'quantities.*' => 'integer|min:1',
-            'promo' => 'nullable|exists:promos,id',
         ]);
     
         if ($validator->fails()) {
@@ -145,13 +141,17 @@ class ReservationController extends Controller
             'location_id' => $request->input('address'),
         ]);
 
-        for ($i = 0; $i < count($request->input('menu_ids')); $i++) {
+        for ($i = 0; $i < $request->input('menu_count'); $i++) {
             Order::create([
-                'quantity' => json_decode($request->input('quantities')[$i])[0],
+                'quantity' => json_decode($request->input('quantities')[0])[$i],
                 'transaction_id' => $reservation->id,
-                'menu_id' => json_decode($request->input('menu_ids')[$i])[0],
+                'menu_id' => json_decode($request->input('menu_ids')[0])[$i],
             ]);
         }
+
+        Cache::forget('completed_reservations');
+        Cache::forget('expired_reservations');
+        Cache::forget('ongoing_reservations');
 
         return redirect()->route('reservation.index')->with('success', 'Reservation created successfully');
     }
@@ -254,17 +254,18 @@ class ReservationController extends Controller
             $order->delete();
         }
 
-        for ($i = 0; $i < count($request->input('menu_ids')); $i++) {
+        for ($i = 0; $i < $request->input('menu_count'); $i++) {
             Order::create([
-                'quantity' => json_decode($request->input('quantities')[$i])[0],
+                'quantity' => json_decode($request->input('quantities')[0])[$i],
                 'transaction_id' => $reservation->id,
-                'menu_id' => json_decode($request->input('menu_ids')[$i])[0],
+                'menu_id' => json_decode($request->input('menu_ids')[0])[$i],
             ]);
         }
 
         Cache::forget('completed_reservations');
         Cache::forget('expired_reservations');
         Cache::forget('ongoing_reservations');
+        Cache::forget('reservations:'. $id);
         return redirect()->route('reservation.index')->with('success', 'Reservation has been updated');    
     }
 

@@ -66,6 +66,7 @@
             <button type="button" onclick="addMenu()">Add Menu</button>
 
             <input type="hidden" name="menu_ids[]" id="menu_ids" value="">
+            <input type="hidden" name="menu_count" id="menu_count" value="">
             <input type="hidden" name="quantities[]" id="quantities" value="">
 
             <label for="promo">Promo:</label>
@@ -83,18 +84,33 @@
     <script>
         var menuIds = [];
         var quantities = [];
+        var prices = [];
+        var names = [];
+        var menuCount = 0;
 
         function addMenu() {
             var menuId = document.getElementById("menu").value;
             var quantity = document.getElementById("quantity").value;
             var index = menuIds.indexOf(menuId);
 
+            var menuDropdown = document.getElementById("menu");
+            var selectedOption = menuDropdown.options[menuDropdown.selectedIndex];
+            var menuName = selectedOption.text.split(" - ")[0];
+            var menuPrice = parseFloat(selectedOption.text.split(" - ")[1]);
+
+
+            console.log("Before Adding Menu:", menuIds, quantities, names, prices);
+
             if (index !== -1) {
                 quantities[index] = parseInt(quantity);
             } else {
                 menuIds.push(menuId);
                 quantities.push(quantity);
+                prices.push(menuPrice);
+                names.push(menuName);
+                menuCount++;
             }
+            console.log("After Adding Menu:", menuIds, quantities, names, prices);
 
             updateMenuTable();
             updateTotalPrice();
@@ -104,6 +120,7 @@
             return function() {
                 menuIds.splice(index, 1);
                 quantities.splice(index, 1);
+                menuCount--;
 
                 updateMenuTable();
                 updateTotalPrice();
@@ -122,10 +139,7 @@
             for (var i = 0; i < menuIds.length; i++) {
                 var menuId = menuIds[i];
                 var quantity = quantities[i];
-
-                var menuDropdown = document.getElementById("menu");
-                var selectedOption = menuDropdown.options[menuDropdown.selectedIndex];
-                var menuPrice = parseFloat(selectedOption.text.split(" - ")[1]);
+                var menuPrice = prices[i];
 
                 var subtotal = menuPrice * quantity;
                 totalPrice += subtotal;
@@ -148,11 +162,8 @@
             for (var i = 0; i < menuIds.length; i++) {
                 var menuId = menuIds[i];
                 var quantity = quantities[i];
-
-                var menuDropdown = document.getElementById("menu");
-                var selectedOption = menuDropdown.options[menuDropdown.selectedIndex];
-                var menuName = selectedOption.text.split(" - ")[0];
-                var menuPrice = selectedOption.text.split(" - ")[1];
+                var menuPrice = prices[i];
+                var menuName = names[i];
 
                 var row = menuTableBody.insertRow();
 
@@ -175,6 +186,7 @@
         function confirmOrder() {
             document.getElementById("menu_ids").value = JSON.stringify(menuIds);
             document.getElementById("quantities").value = JSON.stringify(quantities);
+            document.getElementById("menu_count").value = parseFloat(menuCount);
 
             document.forms[0].submit();
         }

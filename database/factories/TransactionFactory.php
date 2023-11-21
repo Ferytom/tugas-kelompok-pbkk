@@ -20,7 +20,7 @@ class TransactionFactory extends Factory
         return [
             'waktu' => '2999-01-01',
             'keterangan' => '',
-            'hargaTotal' => 100000,
+            'hargaTotal' => fake()->numberBetween(1,5)*50000,
             'statusTransaksi' => 'Belum Dimulai',
             'noMeja' => fake()->numberBetween(1,15),
             'isReservasi' => true,

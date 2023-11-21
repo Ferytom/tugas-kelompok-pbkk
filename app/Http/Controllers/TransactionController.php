@@ -80,9 +80,9 @@ class TransactionController extends Controller
 
         for ($i = 0; $i < count($request->input('menu_ids')); $i++) {
             Order::create([
-                'quantity' => json_decode($request->input('quantities')[$i])[0],
+                'quantity' => json_decode($request->input('quantities')[0])[$i],
                 'transaction_id' => $transaction->id,
-                'menu_id' => json_decode($request->input('menu_ids')[$i])[0],
+                'menu_id' => json_decode($request->input('menu_ids')[0])[$i],
             ]);
         }
 
@@ -173,13 +173,14 @@ class TransactionController extends Controller
 
         for ($i = 0; $i < count($request->input('menu_ids')); $i++) {
             Order::create([
-                'quantity' => json_decode($request->input('quantities')[$i])[0],
+                'quantity' => json_decode($request->input('quantities')[0])[$i],
                 'transaction_id' => $transaction->id,
-                'menu_id' => json_decode($request->input('menu_ids')[$i])[0],
+                'menu_id' => json_decode($request->input('menu_ids')[0])[$i],
             ]);
         }
 
         Cache::forget('transactions');
+        Cache::forget('transactions:' . $id);
         return redirect()->route('transaction.index')->with('success', 'Transaction has been updated');    
     }
 

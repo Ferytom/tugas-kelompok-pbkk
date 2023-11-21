@@ -136,7 +136,7 @@
                     </li>
                 @endif
             @endif
-            @if (Auth::user()->role != 'pelanggan')
+            @if ((Auth::check()) && (Auth::user()->role != 'pelanggan'))
                 @if (Request::is('transaction*'))
                     <a href="{{ route('transaction.index') }}"><p style="font-size: 150%; margin-left:10px;">Transaction List</p></a>
                 @endif

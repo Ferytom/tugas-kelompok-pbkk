@@ -91,7 +91,7 @@ class MenuController extends Controller
         $menu = Menu::findOrFail($id);
         $imagePath = 'storage/assets/img/menu/' . $menu->pathFoto;
         $menu->delete();
-        if (File::exist($imagePath))
+        if (File::exists($imagePath))
         {
             File::delete($imagePath);
         }

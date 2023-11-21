@@ -12,6 +12,7 @@
         <table class="data-table">
             <thead>
                 <tr>
+                    <th>Nama</th>
                     <th>Detail</th>
                     <th>Discount (%)</th>
                     <th>Max Discount</th>
@@ -24,11 +25,12 @@
             <tbody id="data-table-body">
                 @foreach ($active_promos as $promo)
                     <tr>
+                        <td>{{ $promo->nama }}</td>
                         <td>{{ $promo->detail }}</td>
                         <td>{{ $promo->persenDiskon }}%</td>
                         <td>{{ $promo->maxDiskon }}</td>
                         <td>{{ $promo->expired }}</td>
-                        @if ((Auth::check()) && (Auth::user()->role == 'pemilik'))
+                        @if ((Auth::check()) && (Auth::user()->role == 'pemilik') && ($promo->id != 1))
                             <td>
                                 <div class="flex flex-row">
                                     <a href="{{ route('promo.edit', $promo->id) }}" class="btn-info mr-2">Edit</a>

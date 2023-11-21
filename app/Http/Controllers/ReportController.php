@@ -95,5 +95,47 @@ class ReportController extends Controller
         return view('report.monthly', compact('groupedTransactions', 'monthlyTotals'));
     }
 
+    public function misc()
+    {
+        $transactions = Cache::remember('transactions', 120, function () {
+            return Transaction::where('statusTransaksi', '=', 'Selesai')->orderBy('waktu')->get();
+        });
+
+        $highestTotalTransactions = Transaction::where('statusTransaksi', '=', 'Selesai')->orderBy('hargaTotal', 'desc')->take(5)->get();
+        foreach($highestTotalTransactions as $transaction)
+        {
+            $member = User::findOrFail($transaction->user_id);
+            $transaction->member = $member->nama;
+
+            $location = Location::findOrFail($transaction->location_id);
+            $transaction->alamat = $location->alamat;
+        }
+
+        $bestMembers = User::where('role', '=', 'pelanggan')->get();
+        foreach($bestMembers as $member)
+        {
+            $member->totalPengeluaran = Transaction::where('statusTransaksi', '=', 'Selesai')->where('user_id', '=', $member->id)->sum('hargaTotal');
+            $member->jumlahTransaksi = Transaction::where('statusTransaksi', '=', 'Selesai')->where('user_id', '=', $member->id)->count();
+        }
+        $bestMembers = $bestMembers->sortByDesc('totalPengeluaran')->take(5);
+
+        $bestLocations = Location::all();
+        foreach($bestLocations as $location)
+        {
+            $location->totalPendapatan = Transaction::where('statusTransaksi', '=', 'Selesai')->where('location_id', '=', $location->id)->sum('hargaTotal');
+            $location->jumlahTransaksi = Transaction::where('statusTransaksi', '=', 'Selesai')->where('location_id', '=', $location->id)->count();
+        }
+        $bestLocations = $bestLocations->sort(function ($locationA, $locationB) {
+            $compareTotalPendapatan = $locationB->totalPendapatan - $locationA->totalPendapatan;
+        
+            return $compareTotalPendapatan !== 0
+                ? $compareTotalPendapatan
+                : $locationB->jumlahTransaksi - $locationA->jumlahTransaksi;
+        });
+        
+        // Take the top 5 results
+        $bestLocations = $bestLocations->take(5);        
+        return view('report.misc', compact('highestTotalTransactions', 'bestMembers', 'bestLocations'));
+    }
     
 }

@@ -59,6 +59,9 @@
                         <th>Menu Name</th>
                         <th>Price</th>
                         <th>Quantity</th>
+                        @if(Auth::user()->role == 'pelanggan')
+                            <th>Action</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody id="menu_table">
@@ -95,6 +98,7 @@
             @endif
 
             <input type="hidden" name="menu_ids[]" id="menu_ids" value="">
+            <input type="hidden" name="menu_count" id="menu_count" value="">
             <input type="hidden" name="quantities[]" id="quantities" value="">
 
             @if(Auth::user()->role != 'pelanggan')
@@ -132,22 +136,47 @@
     <script>
         var menuIds = @json($orders->pluck('menu_id')->toArray());
         var quantities = @json($orders->pluck('quantity')->toArray());
+        var prices = [];
+        var names = [];
+        var menuCount = 0;
+        var userRole = @json(auth()->user()->role ?? ''); // Assuming 'role' is a property of the user model
+        initNamePrice();
         updateMenuTable();
 
+        function initNamePrice() {
+            for (var i = 0; i < menuIds.length; i++) {
+                var menuDropdown = document.getElementById("menu");
+                var selectedOption = menuDropdown.options[i];
+                var menuName = selectedOption.text.split(" - ")[0];
+                var menuPrice = parseFloat(selectedOption.text.split(" - ")[1]);
+                prices.push(menuPrice);
+                names.push(menuName);
+                menuCount++;
+            }
+        }
+
         function addMenu() {
-            var menuId = parseInt(document.getElementById("menu").value, 10); // Convert to integer
+            var menuId = document.getElementById("menu").value;
             var quantity = document.getElementById("quantity").value;
             var index = menuIds.indexOf(menuId);
-            console.log("Before Adding Menu:", menuIds, quantities);
+
+            var menuDropdown = document.getElementById("menu");
+            var selectedOption = menuDropdown.options[menuDropdown.selectedIndex];
+            var menuName = selectedOption.text.split(" - ")[0];
+            var menuPrice = parseFloat(selectedOption.text.split(" - ")[1]);
+
+
+            console.log("Before Adding Menu:", menuIds, quantities, names, prices);
 
             if (index !== -1) {
                 quantities[index] = parseInt(quantity);
             } else {
                 menuIds.push(menuId);
                 quantities.push(quantity);
+                prices.push(menuPrice);
+                names.push(menuName);
             }
-            console.log("After Adding Menu:", menuIds, quantities);
-
+            console.log("After Adding Menu:", menuIds, quantities, names, prices);
 
             updateMenuTable();
             updateTotalPrice();
@@ -157,6 +186,7 @@
             return function() {
                 menuIds.splice(index, 1);
                 quantities.splice(index, 1);
+                menuCount--;
 
                 updateMenuTable();
                 updateTotalPrice();
@@ -175,10 +205,7 @@
             for (var i = 0; i < menuIds.length; i++) {
                 var menuId = menuIds[i];
                 var quantity = quantities[i];
-
-                var menuDropdown = document.getElementById("menu");
-                var selectedOption = menuDropdown.options[menuDropdown.selectedIndex];
-                var menuPrice = parseFloat(selectedOption.text.split(" - ")[1]);
+                var menuPrice = prices[i];
 
                 var subtotal = menuPrice * quantity;
                 totalPrice += subtotal;
@@ -201,28 +228,34 @@
             for (var i = 0; i < menuIds.length; i++) {
                 var menuId = menuIds[i];
                 var quantity = quantities[i];
-
-                var menuDropdown = document.getElementById("menu");
-                var selectedOption = menuDropdown.options[menuDropdown.selectedIndex];
-                var menuName = selectedOption.text.split(" - ")[0];
-                var menuPrice = selectedOption.text.split(" - ")[1];
+                var menuPrice = prices[i];
+                var menuName = names[i];
 
                 var row = menuTableBody.insertRow();
 
                 var menuNameCell = row.insertCell(0);
                 var menuPriceCell = row.insertCell(1);
                 var quantityCell = row.insertCell(2);
+                if (userRole == "pelanggan") {
+                    var actionCell = row.insertCell(3);
+                }
 
                 menuNameCell.innerHTML = menuName;
                 menuPriceCell.innerHTML = menuPrice;
                 quantityCell.innerHTML = quantity;
 
-                actionCell.appendChild(deleteButton);
+                if (userRole == "pelanggan") {
+                    var deleteButton = document.createElement("button");
+                    deleteButton.innerHTML = "Delete";
+                    deleteButton.addEventListener("click", createDeleteFunction(i));
+                    actionCell.appendChild(deleteButton);
+                }
             }
         }
         function confirmOrder() {
             document.getElementById("menu_ids").value = JSON.stringify(menuIds);
             document.getElementById("quantities").value = JSON.stringify(quantities);
+            document.getElementById("menu_count").value = parseFloat(menuCount);
 
             document.forms[0].submit();
         }

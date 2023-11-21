@@ -26,9 +26,11 @@
             </thead>
             <tbody id="menu_table">
                 @foreach($orders as $order)
-                    <td>{{$order->nama}}</td>
-                    <td>{{$order->harga}}</td>
-                    <td>{{$order->quantity}}</td>
+                    <tr>
+                        <td>{{$order->nama}}</td>
+                        <td>{{$order->harga}}</td>
+                        <td>{{$order->quantity}}</td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
