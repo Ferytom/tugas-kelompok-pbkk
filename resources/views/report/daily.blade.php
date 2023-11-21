@@ -4,6 +4,7 @@
     <h1>Daily Report</h1>
     <a href="{{ route('report.index') }}" class="btn-info mr-2" style="padding-top:10px">Full Report List</a>
     <a href="{{ route('report.monthly') }}" class="btn-info mr-2" style="padding-top:10px">Monthly Report List</a>
+    <a href="{{ route('report.misc') }}" class="btn-info mr-2" style="padding-top:10px">Misc Report List</a>
 
     <table class="data-table">
         <thead>
