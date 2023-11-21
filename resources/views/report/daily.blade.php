@@ -26,4 +26,68 @@
             @endforelse
         </tbody>
     </table>
+    <canvas id="dailyIncomeChart" width="400" height="200"></canvas>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the data from the server-side Laravel Blade view
+        var rawLabels = {!! json_encode(array_keys($groupedTransactions->toArray())) !!};
+        var rawData = {!! json_encode(array_values($dailyTotals->toArray())) !!};
+
+        // Create an object to store data by date
+        var dataByDate = {};
+        rawLabels.forEach(function (date, index) {
+            dataByDate[date] = rawData[index];
+        });
+
+        // Generate an array of dates with zero values for missing dates
+        var startDate = moment(rawLabels[0]);
+        var endDate = moment(rawLabels[rawLabels.length - 1]);
+        var allDates = [];
+        var currentDate = startDate;
+        while (currentDate.isSameOrBefore(endDate, 'day')) {
+            allDates.push(currentDate.format('YYYY-MM-DD'));
+            currentDate.add(1, 'day');
+        }
+
+        // Fill in zero values for missing dates
+        var labels = allDates.map(function (date) {
+            return moment(date).format('MMMM D, YYYY');
+        });
+        var data = allDates.map(function (date) {
+            return dataByDate[date] || 0;
+        });
+
+        // Create a line chart using Chart.js
+        var ctx = document.getElementById('dailyIncomeChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Total Income',
+                    data: data,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    x: [{
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    }],
+                    y: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    });
+</script>
+    
 @endsection
