@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('keterangan')->nullable();
             $table->integer('hargaTotal');
             $table->string('statusTransaksi');
+            $table->integer('noMeja')->default(1);
             $table->boolean('isReservasi')->default(False);
             $table->foreignId('promo_id');
             $table->foreignId('user_id');

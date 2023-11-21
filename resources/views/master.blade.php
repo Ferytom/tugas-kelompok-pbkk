@@ -136,7 +136,14 @@
                     </li>
                 @endif
             @endif
-            <li><a href='review-list.php'>Reviews</a></li>
+            @if (Auth::user()->role != 'pelanggan')
+                @if (Request::is('transaction*'))
+                    <a href="{{ route('transaction.index') }}"><p style="font-size: 150%; margin-left:10px;">Transaction List</p></a>
+                @endif
+                @if (!Request::is('transaction*'))
+                    <a href="{{ route('transaction.index') }}"><p>Transaction List</p></a>
+                @endif
+            @endif
         </ul>
     </div>
 

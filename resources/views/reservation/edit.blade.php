@@ -119,6 +119,9 @@
                     <option value="Sedang Berjalan">Sedang Berjalan</option>
                     <option value="Selesai">Selesai</option>
                 </select>
+
+                <label for="noMeja">Table Number:</label>
+                <input type="number" name="noMeja" id="noMeja" min="1">
             @endif
 
             <br>

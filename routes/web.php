@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\WaitlistController;
 use Illuminate\Support\Facades\Route;
 
@@ -74,6 +75,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/waitlist/create', [WaitlistController::class, 'create'])->name('waitlist.create');
         Route::post('/waitlist', [WaitlistController::class, 'store'])->name('waitlist.store');
         Route::delete('/waitlist/{id}', [WaitlistController::class, 'destroy'])->name('waitlist.destroy');
+
+        Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction.index');
+        Route::get('/transaction/create', [TransactionController::class, 'create'])->name('transaction.create');
+        Route::post('/transaction', [TransactionController::class, 'store'])->name('transaction.store');
+        Route::get('/transaction/detail/{id}', [TransactionController::class, 'detail'])->name('transaction.detail');
+        Route::get('/transaction/edit/{id}', [TransactionController::class, 'edit'])->name('transaction.edit');
+        Route::put('/transaction/edit/{id}', [TransactionController::class, 'update'])->name('transaction.update');
+        Route::delete('/transaction/{id}', [TransactionController::class, 'destroy'])->name('transaction.destroy');
 
         Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
     });

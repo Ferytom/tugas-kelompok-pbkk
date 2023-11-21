@@ -8,6 +8,7 @@
             </div>
     @endif
     <h1>Reservation List</h1>
+    <a href={{ route('transaction.create') }} class='button'>Create New Reservation</a>
         <h3>Ongoing Reservation</h3>
         <table class="data-table">
             <thead>
@@ -28,7 +29,7 @@
                         <td>{{ $reservation->address }}</td>
                         <td>
                             <div class="flex flex-row">
-                                @if($reservation->editable)
+                                @if(($reservation->editable) || (Auth::user()->role != 'pelanggan'))
                                     <a href="{{ route('reservation.edit', $reservation->id) }}" class="btn-info mr-2">Edit</a>
                                 @endif
                                 <a href="{{ route('reservation.detail', $reservation->id) }}" class="btn-indigo mr-2">Detail</a>

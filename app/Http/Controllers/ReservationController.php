@@ -202,6 +202,7 @@ class ReservationController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'address' => 'required|exists:locations,id',
+            'noMeja' => 'numeric',
             'datetime' => function ($attribute, $value, $failed) {
                 if (Carbon::parse($value) < Carbon::now()->addDay()->startOfDay()) {
                     $failed('The date must be in the future.');
@@ -220,6 +221,10 @@ class ReservationController extends Controller
         if($request->input('datetime'))
         {
             $reservation->waktu = $request->input('datetime');
+        }
+        if($request->input('noMeja'))
+        {
+            $reservation->noMeja = $request->input('noMeja');
         }
         if($request->input('notes'))
         {

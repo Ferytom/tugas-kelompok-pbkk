@@ -22,6 +22,7 @@ class TransactionFactory extends Factory
             'keterangan' => '',
             'hargaTotal' => 100000,
             'statusTransaksi' => 'Belum Dimulai',
+            'noMeja' => fake()->numberBetween(1,15),
             'isReservasi' => true,
             'promo_id' => 1,
             'user_id' => fake()->numberBetween(4,6),

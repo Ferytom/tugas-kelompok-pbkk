@@ -13,6 +13,7 @@ class Transaction extends Model
         'keterangan',
         'hargaTotal',
         'statusTransaksi',
+        'noMeja',
         'isReservasi',
         'promo_id',
         'user_id',
