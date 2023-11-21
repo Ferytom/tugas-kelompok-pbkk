@@ -13,6 +13,15 @@ class LocationSeeder extends Seeder
      */
     public function run(): void
     {
-        Location::factory(3)->create();
+        Location::factory()->create([
+            'alamat' => 'lokasi 1',
+        ]);
+        Location::factory()->create([
+            'alamat' => 'lokasi 2',
+        ]);
+        Location::factory()->create([
+            'alamat' => 'lokasi 3',
+        ]);
+        
     }
 }

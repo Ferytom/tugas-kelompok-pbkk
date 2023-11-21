@@ -82,7 +82,7 @@
             <label for="promo">Promo:</label>
             <select name="promo" id="promo" onchange="updateTotalPrice()">
                 @foreach($promos as $promo)
-                    <option value="{{$promo->id}}">{{$promo->detail}} - {{$promo->persenDiskon}}% s/d Rp {{$promo->maxDiskon}}</option>
+                    <option value="{{$promo->id}}">{{$promo->nama}} - {{$promo->persenDiskon}}% s/d Rp {{$promo->maxDiskon}}</option>
                 @endforeach
             </select>
 

@@ -17,6 +17,7 @@ class PromoFactory extends Factory
     public function definition(): array
     {
         return [
+            'nama' => fake()->sentence(2),
             'detail' => fake()->sentence(5),
             'persenDiskon' => fake()->numberBetween(10,75),
             'maxDiskon' => 100000,

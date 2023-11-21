@@ -8,6 +8,7 @@
             </div>
     @endif
     <h1>Transaction List</h1>
+    <a href={{ route('transaction.create') }} class='button'>Create New Transaction</a>
         <h3>Ongoing Transaction</h3>
         <table class="data-table">
             <thead>
@@ -41,6 +42,4 @@
                 @endforeach
             </tbody>
         </table>
-
-        <a href={{ route('transaction.create') }} class='button'>Create New Transaction</a>
 @endsection

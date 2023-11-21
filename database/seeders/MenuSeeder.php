@@ -19,5 +19,11 @@ class MenuSeeder extends Seeder
             'deskripsi' => 'Deskripsi Nasi Goreng',
             'pathFoto' => 'nasi-goreng.jpeg',
         ]);
+
+        Menu::factory()->create([
+            'nama' => 'Mi Goreng',
+            'harga' => 20000,
+            'deskripsi' => 'Deskripsi Mi Goreng',
+        ]);
     }
 }

@@ -104,7 +104,7 @@
                 <select name="promo" id="promo" onchange="updateTotalPrice()">
                     @foreach($promos as $promo)
                         @if($promo->id == $reservation->promo_id)
-                            <option value="{{ $promo->id }}" selected>{{$promo->detail}} - {{$promo->persenDiskon}}% s/d Rp {{$promo->maxDiskon}}</option>
+                            <option value="{{ $promo->id }}" selected>{{$promo->nama}} - {{$promo->persenDiskon}}% s/d Rp {{$promo->maxDiskon}}</option>
                         @endif
                     @endforeach
                 </select>

@@ -10,6 +10,7 @@ class Promo extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'nama',
         'detail',
         'persenDiskon',
         'maxDiskon',

@@ -14,6 +14,7 @@ class PromoSeeder extends Seeder
     public function run(): void
     {
         Promo::factory()->create([
+            'nama' => 'No Promo',
             'detail' => 'Tidak Menggunakan Promo',
             'persenDiskon' => 0,
             'maxDiskon' => 0,

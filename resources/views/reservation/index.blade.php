@@ -8,7 +8,7 @@
             </div>
     @endif
     <h1>Reservation List</h1>
-    <a href={{ route('transaction.create') }} class='button'>Create New Reservation</a>
+    <a href={{ route('reservation.create') }} class='button'>Create New Reservation</a>
         <h3>Ongoing Reservation</h3>
         <table class="data-table">
             <thead>
