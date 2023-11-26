@@ -16,6 +16,7 @@ class TransactionSeeder extends Seeder
         Transaction::factory(25)->octoberState()->create();
         Transaction::factory(20)->novemberBeforeNowState()->create();
         Transaction::factory(15)->novemberAfterNowState()->create();
+        Transaction::factory(100)->offlineState()->create();
         Transaction::factory(1)->create();
     }
 }
