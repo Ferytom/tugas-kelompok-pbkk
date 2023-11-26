@@ -58,49 +58,141 @@
         </div>
         <ul>
             <li>
-                @if (Request::is('/'))
-                    <a href="{{ route('dashboard') }}"><p style="font-size: 150%; margin-left:10px;">Dashboard</p></a>
-                @endif
-                @if (!Request::is('/'))
-                    <a href="{{ route('dashboard') }}"><p>Dashboard</p></a>
-                @endif
+                <div style="display: flex; align-items: center;">
+                    <svg style="margin-right: 8px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <a href="{{ route('dashboard') }}" id="dashboard">Dashboard</a>
+                </div>
             </li>
-            <li>
-                @if (Request::is('menu*'))
-                    <a href="{{ route('menu.index') }}"><p style="font-size: 150%; margin-left:10px;">Menu List</p></a>
+            <div id="Menu" style="margin-top: 10px">
+                @if((Auth::check()) && (Auth::user()->role != 'pelanggan'))
+                    <div tabindex="0" role="button" id="toggleButtonMenu" style="display: flex; align-items: center; cursor: pointer;">
+                        <svg style="margin-right: 8px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DescriptionIcon" height="1.5rem">
+                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"></path>
+                        </svg>
+                        <div>
+                            <span>Menu</span>
+                        </div>
+                        <svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ExpandLessIcon" height="1.5rem">
+                            <path d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z" id="arrowPathMenu"></path>
+                        </svg>
+                        <span></span>
+                    </div>
+                    <div id="dataSectionMenu" style="display:none">
+                    <li id="menuList">
+                            <div tabindex="-1" role="button">
+                                <svg style="margin-right: 8px; vertical-align: middle;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" height="1.5rem">
+                                    <path d="m10 17 5-5-5-5v10z"></path>
+                                </svg>
+                                <a href="{{ route('menu.index') }}">Menu List</a>
+                                <span></span>
+                            </div>
+                        </li>
+                        <li id="createMenu">
+                            <div tabindex="-1" role="button">
+                                <svg style="margin-right: 8px; vertical-align: middle;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" height="1.5rem">
+                                    <path d="m10 17 5-5-5-5v10z"></path>
+                                </svg>
+                                <a href="{{ route('menu.create') }}">Create New Menu</a>
+                                <span></span>
+                            </div>
+                        </li>
+                    </div>
                 @endif
-                @if (!Request::is('menu*'))
-                    <a href="{{ route('menu.index') }}"><p>Menu List</p></a>
-                @endif
-            </li>
-            <li>
-                @if (Request::is('promo*'))
-                    <a href="{{ route('promo.index') }}"><p style="font-size: 150%; margin-left:10px;">Promo List</p></a>
-                @endif
-                @if (!Request::is('promo*'))
-                    <a href="{{ route('promo.index') }}"><p>Promo List</p></a>
-                @endif
-            </li>
-            @if (Auth::check())
-                <li>Reservations
-                    <ul>
-                        @if (Request::is('reservation'))
-                            <a href="{{ route('reservation.index') }}"><p style="font-size: 150%; margin-left:10px;">Reservation List</p></a>
-                        @endif
-                        @if (!Request::is('reservation'))
-                            <a href="{{ route('reservation.index') }}"><p>Reservation List</p></a>
-                        @endif
-                    </ul>
-                    @if (Auth::user()->role == 'pelanggan')
-                        @if (Request::is('reservation/*'))
-                            <a href="{{ route('reservation.create') }}"><p style="font-size: 150%; margin-left:10px;">Make a Reservation</p></a>
-                        @endif
-                        @if (!Request::is('reservation/*'))
-                            <a href="{{ route('reservation.create') }}"><p>Make a Reservation</p></a>
-                        @endif
+                <li>
+                    @if(!((Auth::check()) && (Auth::user()->role != 'pelanggan')))
+                        <div style="display: flex; align-items: center;">
+                            <svg style="margin-right: 8px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DescriptionIcon" height="1.5rem">
+                                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"></path>
+                            </svg>
+                            <a href="{{ route('menu.index') }}" id="menuList">Menu List</a>
+                        </div>
                     @endif
                 </li>
-
+            </div>
+            <div id="Promo" style="margin-top: 10px">
+                @if((Auth::check()) && (Auth::user()->role == 'pemilik'))
+                    <div tabindex="0" role="button" id="toggleButtonPromo" style="display: flex; align-items: center; cursor: pointer;">
+                        <svg style="margin-right: 8px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DescriptionIcon" height="1.5rem">
+                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"></path>
+                        </svg>
+                        <div>
+                            <span>Promo</span>
+                        </div>
+                        <svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ExpandLessIcon" height="1.5rem">
+                            <path d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z" id="arrowPathMenu"></path>
+                        </svg>
+                        <span></span>
+                    </div>
+                    <div id="dataSectionPromo" style="display:none">
+                    <li id="promoList">
+                            <div tabindex="-1" role="button">
+                                <svg style="margin-right: 8px; vertical-align: middle;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" height="1.5rem">
+                                    <path d="m10 17 5-5-5-5v10z"></path>
+                                </svg>
+                                <a href="{{ route('promo.index') }}">Promo List</a>
+                                <span></span>
+                            </div>
+                        </li>
+                        <li id="createPromo">
+                            <div tabindex="-1" role="button">
+                                <svg style="margin-right: 8px; vertical-align: middle;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" height="1.5rem">
+                                    <path d="m10 17 5-5-5-5v10z"></path>
+                                </svg>
+                                <a href="{{ route('promo.create') }}">Create New Promo</a>
+                                <span></span>
+                            </div>
+                        </li>
+                    </div>
+                @endif
+                <li>
+                    @if(!((Auth::check()) && (Auth::user()->role == 'pemilik')))
+                        <div style="display: flex; align-items: center;">
+                            <svg style="margin-right: 8px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DescriptionIcon" height="1.5rem">
+                                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"></path>
+                            </svg>
+                            <a href="{{ route('menu.index') }}" id="menuList">Menu List</a>
+                        </div>
+                    @endif
+                </li>
+            </div>
+            @if (Auth::check())
+                <div id="Reservation" style="margin-top: 10px">
+                    <div tabindex="0" role="button" id="toggleButtonReservation" style="display: flex; align-items: center; cursor: pointer;">
+                        <svg style="margin-right: 8px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DescriptionIcon" height="1.5rem">
+                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"></path>
+                        </svg>
+                        <div>
+                            <span>Reservations</span>
+                        </div>
+                        <svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ExpandLessIcon" height="1.5rem">
+                            <path d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z" id="arrowPathReservation"></path>
+                        </svg>
+                        <span class=""></span>
+                    </div>
+                    <div id="dataSectionReservation" style="display:none">
+                        <li id="reservationList">
+                            <div tabindex="-1" role="button">
+                                <svg style="margin-right: 8px; vertical-align: middle;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" height="1.5rem">
+                                    <path d="m10 17 5-5-5-5v10z"></path>
+                                </svg>
+                                <a href="{{ route('reservation.index') }}">Reservation List</a>
+                                <span></span>
+                            </div>
+                        </li>
+                        <li id="createReservation">
+                            <div tabindex="-1" role="button">
+                                <svg style="margin-right: 8px; vertical-align: middle;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" height="1.5rem">
+                                    <path d="m10 17 5-5-5-5v10z"></path>
+                                </svg>
+                                <a href="{{ route('reservation.create') }}">Create a New Reservation</a>
+                                <span></span>
+                            </div>
+                        </li>
+                    </div>
+                </div>
                 @if (Auth::user()->role != 'pelanggan')
                     <li>
                         @if (Request::is('waitlist*'))
@@ -155,5 +247,80 @@
     <div class="content">
         @yield('content')
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var dataSectionReservation = document.getElementById('dataSectionReservation');
+        var arrowPathReservation = document.getElementById('arrowPathReservation');
+        var dataSectionMenu = document.getElementById('dataSectionMenu');
+        var arrowPathMenu = document.getElementById('arrowPathMenu');
+        var dataSectionPromo = document.getElementById('dataSectionPromo');
+        var arrowPathPromo = document.getElementById('arrowPathPromo');
+        var currentPath = window.location.pathname;
+
+        document.getElementById('toggleButtonMenu').addEventListener('click', function () {
+            dataSectionMenu.style.display = (dataSectionMenu.style.display === 'none' || dataSectionMenu.style.display === '') ? 'block' : 'none';
+
+            if (dataSectionMenu.style.display === 'none') {
+                arrowPathMenu.setAttribute('d', 'M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z');
+            } else {
+                arrowPathMenu.setAttribute('d', 'm12 8-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z');
+            }
+        });
+
+        document.getElementById('toggleButtonPromo').addEventListener('click', function () {
+            dataSectionPromo.style.display = (dataSectionPromo.style.display === 'none' || dataSectionPromo.style.display === '') ? 'block' : 'none';
+
+            if (dataSectionPromo.style.display === 'none') {
+                arrowPathPromo.setAttribute('d', 'M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z');
+            } else {
+                arrowPathPromo.setAttribute('d', 'm12 8-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z');
+            }
+        });
+
+        document.getElementById('toggleButtonReservation').addEventListener('click', function () {
+            dataSectionReservation.style.display = (dataSectionReservation.style.display === 'none' || dataSectionReservation.style.display === '') ? 'block' : 'none';
+
+            if (dataSectionReservation.style.display === 'none') {
+                arrowPathReservation.setAttribute('d', 'M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z');
+            } else {
+                arrowPathReservation.setAttribute('d', 'm12 8-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z');
+            }
+        });
+
+        if (currentPath === '/reservation') {
+            document.getElementById('toggleButtonReservation').click();
+            document.getElementById('reservationList').style.display = 'block';
+            document.getElementById('reservationList').style.backgroundColor = 'yellowgreen';
+        } else if (currentPath === '/reservation/create') {
+            document.getElementById('toggleButtonReservation').click();
+            document.getElementById('createReservation').style.display = 'block';
+            document.getElementById('createReservation').style.backgroundColor = 'yellowgreen';
+        } else if (currentPath === '/menu') {
+            document.getElementById('toggleButtonMenu').click();
+            document.getElementById('menuList').style.display = 'block';
+            document.getElementById('menuList').style.backgroundColor = 'yellowgreen';
+        } else if (currentPath === '/menu/create') {
+            document.getElementById('toggleButtonMenu').click();
+            document.getElementById('createMenu').style.display = 'block';
+            document.getElementById('createMenu').style.backgroundColor = 'yellowgreen';
+        } else if (currentPath === '/promo') {
+            document.getElementById('toggleButtonPromo').click();
+            document.getElementById('promoList').style.display = 'block';
+            document.getElementById('promoList').style.backgroundColor = 'yellowgreen';
+        } else if (currentPath === '/promo/create') {
+            document.getElementById('toggleButtonPromo').click();
+            document.getElementById('createPromo').style.display = 'block';
+            document.getElementById('createPromo').style.backgroundColor = 'yellowgreen';
+        }
+        else {
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('dashboard').style.width = '70%';
+            document.getElementById('dashboard').style.padding = '8px';
+            document.getElementById('dashboard').style.backgroundColor = 'yellowgreen';
+        } 
+    });
+    </script>
+
 </body>
 </html>
