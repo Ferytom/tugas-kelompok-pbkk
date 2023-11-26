@@ -15,7 +15,7 @@ class ReportController extends Controller
     private $formData = [];
     public function index()
     {
-        $transactions = Cache::remember('transactions', 120, function () {
+        $transactions = Cache::remember('completedTransactions', 120, function () {
             $current_date = Carbon::now('Asia/Bangkok');
             return Transaction::where('waktu', '<', $current_date)->where('statusTransaksi', '=', 'Selesai')->orderBy('waktu')->get();
         });
@@ -33,7 +33,7 @@ class ReportController extends Controller
 
     public function daily()
     {
-        $transactions = Cache::remember('transactions', 120, function () {
+        $transactions = Cache::remember('completedTransactions', 120, function () {
             $current_date = Carbon::now('Asia/Bangkok');
             return Transaction::where('waktu', '<', $current_date)->where('statusTransaksi', '=', 'Selesai')->orderBy('waktu')->get();
         });
@@ -65,7 +65,7 @@ class ReportController extends Controller
 
     public function monthly()
     {
-        $transactions = Cache::remember('transactions', 120, function () {
+        $transactions = Cache::remember('completedTransactions', 120, function () {
             $current_date = Carbon::now('Asia/Bangkok');
             return Transaction::where('waktu', '<', $current_date)->where('statusTransaksi', '=', 'Selesai')->orderBy('waktu')->get();
         });
@@ -97,8 +97,9 @@ class ReportController extends Controller
 
     public function misc()
     {
-        $transactions = Cache::remember('transactions', 120, function () {
-            return Transaction::where('statusTransaksi', '=', 'Selesai')->orderBy('waktu')->get();
+        $transactions = Cache::remember('completedTransactions', 120, function () {
+            $current_date = Carbon::now('Asia/Bangkok');
+            return Transaction::where('waktu', '<', $current_date)->where('statusTransaksi', '=', 'Selesai')->orderBy('waktu')->get();
         });
 
         $highestTotalTransactions = Transaction::where('statusTransaksi', '=', 'Selesai')->orderBy('hargaTotal', 'desc')->take(5)->get();

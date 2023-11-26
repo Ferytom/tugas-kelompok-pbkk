@@ -265,7 +265,11 @@ class ReservationController extends Controller
         Cache::forget('completed_reservations');
         Cache::forget('expired_reservations');
         Cache::forget('ongoing_reservations');
-        Cache::forget('reservations:'. $id);
+        Cache::forget('ongoingTransactions');
+        Cache::forget('completedTransactions');
+        Cache::forget('transactions:' . $id);
+        Cache::forget('orders: ' . $id);
+        
         return redirect()->route('reservation.index')->with('success', 'Reservation has been updated');    
     }
 

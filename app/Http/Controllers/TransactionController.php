@@ -20,7 +20,7 @@ class TransactionController extends Controller
     private $formData = [];
     public function index()
     {
-        $transactions = Cache::remember('transactions', 120, function () {
+        $transactions = Cache::remember('ongoingTransactions', 120, function () {
             return Transaction::where('statusTransaksi', '=', 'Sedang Berjalan')->orderBy('waktu')->get();
         });
 
@@ -86,7 +86,7 @@ class TransactionController extends Controller
             ]);
         }
 
-        Cache::forget('transactions');
+        Cache::forget('ongoingTransactions');        
 
         return redirect()->route('transaction.index')->with('success', 'Transaction created successfully');
     }
@@ -179,8 +179,10 @@ class TransactionController extends Controller
             ]);
         }
 
-        Cache::forget('transactions');
+        Cache::forget('ongoingTransactions');
+        Cache::forget('completedTransactions');
         Cache::forget('transactions:' . $id);
+        Cache::forget('orders: ' . $id);
         return redirect()->route('transaction.index')->with('success', 'Transaction has been updated');    
     }
 
