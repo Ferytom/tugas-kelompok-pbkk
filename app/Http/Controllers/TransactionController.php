@@ -50,7 +50,7 @@ class TransactionController extends Controller
         $promos = Cache::remember('promos', 120, function () {
             return Promo::all();
         });
-        return view ('reservation.create', compact('members', 'locations', 'menus', 'promos'));
+        return view ('transaction.create', compact('members', 'locations', 'menus', 'promos'));
     }
 
     public function store(Request $request)
