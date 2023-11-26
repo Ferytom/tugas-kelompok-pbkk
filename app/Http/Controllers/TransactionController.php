@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 class TransactionController extends Controller
@@ -59,19 +60,17 @@ class TransactionController extends Controller
             'user' => 'required|exists:users,id',
             'address' => 'required|exists:locations,id',
             'total_price' => 'required|numeric',
+            'noMeja' => 'numeric',
             'notes' => 'nullable|string',
-            'menu_ids' => 'required|array',
-            'menu_ids.*' => 'exists:menus,id',
-            'quantities' => 'required|array',
-            'quantities.*' => 'integer|min:1',
             'promo' => 'nullable|exists:promos,id',
         ]);
 
         $transaction = Transaction::create([
-            'waktu' => Carbon::now(),
+            'waktu' => Carbon::now('Asia/Bangkok'),
             'keterangan' => $request->input('notes'),
             'hargaTotal' => $request->input('total_price'),
             'statusTransaksi' => "Sedang Berjalan",
+            'noMeja' => $request->input('noMeja'),
             'isReservasi' => False,
             'promo_id' => $request->input('promo'),
             'user_id' => $request->input('user'),
@@ -108,6 +107,9 @@ class TransactionController extends Controller
         $promos = Cache::remember('promos', 120, function () {
             return Promo::all();
         });
+        $members = Cache::remember('members', 120, function() {
+            return User::where('role', '=', 'pelanggan')->get();
+        });
 
         foreach($orders as $order)
         {
@@ -121,7 +123,7 @@ class TransactionController extends Controller
             return redirect()->route('transaction.index')->with('success', 'You do not have permission to edit this reservation');
         }
 
-        return view('transaction.edit', compact('transaction', 'orders', 'locations', 'menus', 'promos'));
+        return view('transaction.edit', compact('transaction', 'orders', 'locations', 'menus', 'promos', 'members'));
     }
 
     public function update(Request $request, $id)
@@ -131,10 +133,6 @@ class TransactionController extends Controller
             'address' => 'exists:locations,id',
             'total_price' => 'numeric',
             'notes' => 'nullable|string',
-            'menu_ids' => 'array',
-            'menu_ids.*' => 'exists:menus,id',
-            'quantities' => 'array',
-            'quantities.*' => 'integer|min:1',
             'promo' => 'nullable|exists:promos,id',
         ]);
 
@@ -171,12 +169,17 @@ class TransactionController extends Controller
             $order->delete();
         }
 
-        for ($i = 0; $i < count($request->input('menu_ids')); $i++) {
+        $menuCount = count($request->input('menu_ids'));
+
+        Log::info('menu_ids count: [' . $request->input('menu_count') . ']');
+        
+        for ($i = 0; $i < $request->input('menu_count'); $i++) {
             Order::create([
                 'quantity' => json_decode($request->input('quantities')[0])[$i],
                 'transaction_id' => $transaction->id,
                 'menu_id' => json_decode($request->input('menu_ids')[0])[$i],
             ]);
+            Log::info('quantity : {quantity}, menu id : {menuId}', ['quantity' => json_decode($request->input('quantities')[0])[$i], 'menuId' => json_decode($request->input('menu_ids')[0])[$i]]);
         }
 
         Cache::forget('ongoingTransactions');
@@ -191,9 +194,7 @@ class TransactionController extends Controller
         $transaction = Cache::remember('transactions:' . $id, 120, function () use ($id) {
             return Transaction::findOrFail($id);
         });
-        $orders = Cache::remember('orders:' . $id, 120, function () use ($id) {
-            return Order::where('transaction_id', '=', $id)->get();
-        });
+        $orders = Order::where('transaction_id', '=', $id)->get();
 
         $location = Location::findOrFail($transaction->location_id);
         $transaction->alamat = $location->alamat;

@@ -31,11 +31,6 @@
                             <div class="flex flex-row">
                                 <a href="{{ route('transaction.edit', $transaction->id) }}" class="btn-info mr-2">Edit</a>
                                 <a href="{{ route('transaction.detail', $transaction->id) }}" class="btn-indigo mr-2">Detail</a>
-                                <form action="{{ route('transaction.destroy', $transaction->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
-                                </form>
                             </div>
                         </td>
                     </tr>

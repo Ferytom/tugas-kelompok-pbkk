@@ -4,31 +4,37 @@
     <div class="form-container">
         <form action="{{ route('transaction.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <label for="user">Member:</label>
-            <select name="user" id="user">
-                @foreach($members as $member)
-                    <option value="{{$member->id}}">{{$member->nama}}</option>
-                @endforeach
-            </select>
-            @error('user')
-                <span class="text-xs text-red-600">{{ $message }}</span>
-            @enderror
+            <div style="display: flex; align-items: center;">
+                <label for="user" style="padding-right: 20px">Member:</label>
+                <select name="user" id="user">
+                    @foreach($members as $member)
+                        <option value="{{$member->id}}">{{$member->nama}}</option>
+                    @endforeach
+                </select>
+                @error('user')
+                    <span class="text-xs text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
 
-            <label for="address">Restaurant Location:</label>
-            <select name="address" id="address">
-                @foreach($locations as $location)
-                    <option value="{{$location->id}}">{{$location->alamat}}</option>
-                @endforeach
-            </select>
-            @error('address')
-                <span class="text-xs text-red-600">{{ $message }}</span>
-            @enderror
+            <div style="display: flex; align-items: center;">
+                <label for="address" style="padding-right: 20px">Restaurant Location:</label>
+                <select name="address" id="address">
+                    @foreach($locations as $location)
+                        <option value="{{$location->id}}">{{$location->alamat}}</option>
+                    @endforeach
+                </select>
+                @error('address')
+                    <span class="text-xs text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
 
-            <label for="noMeja">Table Number:</label>
-            <input type="number" name="noMeja" id="noMeja" min="1" value="1">
-            @error('noMeja')
-                <span class="text-xs text-red-600">{{ $message }}</span>
-            @enderror
+            <div style="display: flex; align-items: center;">
+                <label for="noMeja" style="padding-right: 20px">Table Number:</label>
+                <input type="number" name="noMeja" id="noMeja" min="1" value="1">
+                @error('noMeja')
+                    <span class="text-xs text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
             
             <label for="total_price">Total Price:</label>
             <input type="text" name="total_price" id="total_price" readonly value="{{old('total_price')}}">
@@ -79,12 +85,14 @@
             <input type="hidden" name="menu_count" id="menu_count" value="">
             <input type="hidden" name="quantities[]" id="quantities" value="">
 
-            <label for="promo">Promo:</label>
-            <select name="promo" id="promo" onchange="updateTotalPrice()">
-                @foreach($promos as $promo)
-                    <option value="{{$promo->id}}">{{$promo->nama}} - {{$promo->persenDiskon}}% s/d Rp {{$promo->maxDiskon}}</option>
-                @endforeach
-            </select>
+            <div style="display: flex; align-items: center;">
+                <label for="promo" style="padding-right: 20px">Promo:</label>
+                <select name="promo" id="promo" onchange="updateTotalPrice()">
+                    @foreach($promos as $promo)
+                        <option value="{{$promo->id}}">{{$promo->nama}} - {{$promo->persenDiskon}}% s/d Rp {{$promo->maxDiskon}}</option>
+                    @endforeach
+                </select>
+            </div>
 
             <br>
             <input type="submit" value="Create" onclick="confirmOrder()">

@@ -4,32 +4,45 @@
     <div class="form-container">
         <form action="{{ route('transaction.update', $transaction->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <label for="user">Member:</label>
-            <select name="user" id="user">
-                @foreach($members as $member)
-                    @if($member->id == $transaction->user_id)
-                        <option value="{{$member->id}}" selected>{{$member->nama}}</option>
-                    @endif
-                    @if($member->id != $transaction->user_id)
-                        <option value="{{$member->id}}">{{$member->nama}}</option>
-                    @endif
-                @endforeach
-            </select>
-            @error('user')
-                <span class="text-xs text-red-600">{{ $message }}</span>
-            @enderror
+            @method('PUT')
+            <div style="display: flex; align-items: center;">
+                <label for="user" style="padding-right: 20px">Member:</label>
+                <select name="user" id="user">
+                    @foreach($members as $member)
+                        @if($member->id == $transaction->user_id)
+                            <option value="{{$member->id}}" selected>{{$member->nama}}</option>
+                        @endif
+                        @if($member->id != $transaction->user_id)
+                            <option value="{{$member->id}}">{{$member->nama}}</option>
+                        @endif
+                    @endforeach
+                </select>
+                @error('user')
+                    <span class="text-xs text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
 
-            <label for="address">Restaurant Location:</label>
-            <select name="address" id="address">
-                @foreach($locations as $location)
-                    @if($location->id == $transaction->location_id)
-                        <option value="{{ $location->id }}" selected>{{ $location->alamat }}</option>
-                    @endif
-                @endforeach
-            </select>
-            @error('address')
-                <span class="text-xs text-red-600">{{ $message }}</span>
-            @enderror
+            <div style="display: flex; align-items: center;">
+                <label for="address" style="padding-right: 20px">Restaurant Location:</label>
+                <select name="address" id="address">
+                    @foreach($locations as $location)
+                        @if($location->id == $transaction->location_id)
+                            <option value="{{ $location->id }}" selected>{{ $location->alamat }}</option>
+                        @endif
+                    @endforeach
+                </select>
+                @error('address')
+                    <span class="text-xs text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div style="display: flex; align-items: center;">
+                <label for="noMeja" style="padding-right: 20px">Table Number:</label>
+                <input type="number" name="noMeja" id="noMeja" min="1" value="1">
+                @error('noMeja')
+                    <span class="text-xs text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
             
             <label for="total_price">Total Price:</label>
             <input type="text" name="total_price" id="total_price" readonly value="{{$transaction->hargaTotal}}">
@@ -80,30 +93,32 @@
             <input type="hidden" name="menu_count" id="menu_count" value="">
             <input type="hidden" name="quantities[]" id="quantities" value="">
 
-            <label for="promo">Promo:</label>
-            <select name="promo" id="promo" onchange="updateTotalPrice()">
-                @foreach($promos as $promo)
-                    <option value="{{$promo->id}}">{{$promo->nama}} - {{$promo->persenDiskon}}% s/d Rp {{$promo->maxDiskon}}</option>
-                @endforeach
-            </select>
+            <div style="display: flex; align-items: center;">
+                <label for="promo" style="padding-right: 20px">Promo:</label>
+                <select name="promo" id="promo" onchange="updateTotalPrice()">
+                    @foreach($promos as $promo)
+                        <option value="{{$promo->id}}">{{$promo->nama}} - {{$promo->persenDiskon}}% s/d Rp {{$promo->maxDiskon}}</option>
+                    @endforeach
+                </select>
+            </div>
 
-            <label for="reservation_status">Reservation Status:</label>
-            <select name="reservation_status" id="reservation_status">
-                <option value="Belum Dimulai">Belum Dimulai</option>
-                <option value="Sedang Berjalan">Sedang Berjalan</option>
-                <option value="Selesai">Selesai</option>
-            </select>
-
-            <label for="noMeja">Table Number:</label>
-            <input type="number" name="noMeja" id="noMeja" min="1">
+            <div style="display: flex; align-items: center;">
+                <label for="reservation_status" style="padding-right: 20px">Reservation Status:</label>
+                <select name="reservation_status" id="reservation_status">
+                    <option value="Sedang Berjalan">Sedang Berjalan</option>
+                    <option value="Selesai">Selesai</option>
+                </select>
+            </div>
 
             <br>
-            <input type="submit" value="Create" onclick="confirmOrder()">
+            <input type="submit" value="Edit" onclick="confirmOrder()">
         </form>
     </div>
 
     <script>
-        var menuIds = @json($orders->pluck('menu_id')->toArray());
+        var menuIds = @json($orders->pluck('menu_id')->map(function($id) {
+            return (string)$id;
+        })->toArray());
         var quantities = @json($orders->pluck('quantity')->toArray());
         var prices = [];
         var names = [];
@@ -135,7 +150,7 @@
             var menuPrice = parseFloat(selectedOption.text.split(" - ")[1]);
 
 
-            console.log("Before Adding Menu:", menuIds, quantities, names, prices);
+            console.log("Before Adding Menu:", menuCount, menuIds, quantities, names, prices);
 
             if (index !== -1) {
                 quantities[index] = parseInt(quantity);
@@ -144,8 +159,9 @@
                 quantities.push(quantity);
                 prices.push(menuPrice);
                 names.push(menuName);
+                menuCount++;
             }
-            console.log("After Adding Menu:", menuIds, quantities, names, prices);
+            console.log("After Adding Menu:", menuCount, menuIds, quantities, names, prices);
 
             updateMenuTable();
             updateTotalPrice();
@@ -205,20 +221,16 @@
                 var menuNameCell = row.insertCell(0);
                 var menuPriceCell = row.insertCell(1);
                 var quantityCell = row.insertCell(2);
-                if (userRole == "pelanggan") {
-                    var actionCell = row.insertCell(3);
-                }
+                var actionCell = row.insertCell(3);
 
                 menuNameCell.innerHTML = menuName;
                 menuPriceCell.innerHTML = menuPrice;
                 quantityCell.innerHTML = quantity;
 
-                if (userRole == "pelanggan") {
-                    var deleteButton = document.createElement("button");
-                    deleteButton.innerHTML = "Delete";
-                    deleteButton.addEventListener("click", createDeleteFunction(i));
-                    actionCell.appendChild(deleteButton);
-                }
+                var deleteButton = document.createElement("button");
+                deleteButton.innerHTML = "Delete";
+                deleteButton.addEventListener("click", createDeleteFunction(i));
+                actionCell.appendChild(deleteButton);
             }
         }
         function confirmOrder() {
