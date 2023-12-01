@@ -20,6 +20,10 @@ class WaitlistService
     {
         return $this->waitlistRepository->getAllWaitlists();
     }
+    public function getAllLocations(): Collection
+    {
+        return $this->waitlistRepository->getAllLocations();
+    }
 
     public function createWaitlist(array $data): Waitlist
     {

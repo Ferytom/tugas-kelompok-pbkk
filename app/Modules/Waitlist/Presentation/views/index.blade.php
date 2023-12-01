@@ -8,18 +8,32 @@
             </div>
     @endif
     <h1>Waiting List</h1>
+
+    @if(Auth::user()->role == 'pemilik')
+        <div style="padding-bottom: 15px">
+            <label for="alamat">Restaurant Location:</label>
+            <select name="alamat" id="alamat" >
+                <option value="all">All</option>
+                @foreach($locations as $location)
+                    <option value="{{$location->id}}">{{$location->alamat}}</option>
+                @endforeach
+            </select>
+        </div>
+    @endif
     <table class="data-table">
         <thead>
             <tr>
                 <th>Nama</th>
+                <th>Alamat</th>
                 <th>Jumlah Orang</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody id="data-table-body">
             @foreach ($waitlists as $waitlist)
-                <tr>
+                <tr data-location="{{$waitlist->location_id}}">
                     <td>{{ $waitlist->nama }}</td>
+                    <td>{{ $waitlist->alamat }}</td>
                     <td>{{ $waitlist->jumlahOrang }}</td>
                     <td>
                         <form action="{{ route('waitlist.destroy', $waitlist->id) }}" method="POST">
@@ -33,4 +47,22 @@
         </tbody>
     </table>
     <a href={{ route('waitlist.create') }} class='button'>Create New Waiting List</a>
+
+    <script>
+        document.getElementById('alamat').addEventListener('change', function () {
+            var selectedLocationId = this.value;
+            var tableRows = document.querySelectorAll('#data-table-body tr');
+
+            tableRows.forEach(function (row) {
+                var rowLocationId = row.getAttribute('data-location');
+
+                if (selectedLocationId === 'all' || selectedLocationId === rowLocationId) {
+                    row.style.display = ''; // Show the row
+                } else {
+                    row.style.display = 'none'; // Hide the row
+                }
+            });
+        });
+    </script>
+
 @endsection

@@ -19,9 +19,10 @@ class WaitlistController
 
     public function index()
     {
-        $waitlists =$this->waitlistService->getAllWaitlists(); 
+        $waitlists = $this->waitlistService->getAllWaitlists(); 
+        $locations = $this->waitlistService->getAllLocations();
 
-        return view('waitlist::index', compact('waitlists'));
+        return view('waitlist::index', compact('waitlists', 'locations'));
     }
 
     public function create()

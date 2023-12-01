@@ -3,7 +3,7 @@
 namespace App\Modules\Waitlist\Infrastructure\Repository;
 use App\Modules\Waitlist\Core\Domain\Repository\WaitlistRepository;
 use App\Modules\Shared\Core\Domain\Model\Waitlist;
-use App\Modules\Shared\Core\Domain\Model\User;
+use App\Modules\Shared\Core\Domain\Model\Location;
 use Cache;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
@@ -29,7 +29,21 @@ class EloquentWaitlistRepository implements WaitlistRepository
             });
         }
 
+        foreach ($waitlists as $waitlist)
+        {
+            $location = Location::findOrFail($waitlist->location_id);
+            $waitlist->alamat = $location->alamat;
+        }
+
         return $waitlists;
+    }
+
+    public function getAllLocations(): Collection
+    {
+        $locations = Cache::remember('locations', 120, function () {
+            return Location::all();
+        });
+        return $locations;
     }
 
     public function createWaitlist(array $data): Waitlist
