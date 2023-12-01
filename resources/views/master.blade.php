@@ -386,6 +386,17 @@
             document.getElementById('dashboard').style.padding = '8px';
             document.getElementById('dashboard').style.backgroundColor = 'yellowgreen';
         } 
+
+
+        var isLoggedOut = {!! json_encode(session()->has('logout')) !!};
+
+        if (isLoggedOut) {
+            localStorage.clear();
+
+            sessionStorage.clear();
+
+            window.location.href = '/';
+        }
     });
     </script>
 
