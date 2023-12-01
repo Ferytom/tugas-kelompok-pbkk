@@ -168,6 +168,15 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Modules\Employee\Infrastructure\Providers\EmployeeServiceProvider::class,
+        App\Modules\Member\Infrastructure\Providers\MemberServiceProvider::class,
+        App\Modules\Menu\Infrastructure\Providers\MenuServiceProvider::class,
+        App\Modules\Notification\Infrastructure\Providers\NotificationServiceProvider::class,
+        App\Modules\Promo\Infrastructure\Providers\PromoServiceProvider::class,
+        App\Modules\Report\Infrastructure\Providers\ReportServiceProvider::class,
+        App\Modules\Reservation\Infrastructure\Providers\ReservationServiceProvider::class,
+        App\Modules\Transaction\Infrastructure\Providers\TransactionServiceProvider::class,
+        App\Modules\Waitlist\Infrastructure\Providers\WaitlistServiceProvider::class
     ])->toArray(),
 
     /*

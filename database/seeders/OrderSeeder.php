@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Order;
+use \App\Modules\Shared\Core\Domain\Model\Order;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use DB;
 
 class OrderSeeder extends Seeder
 {
@@ -13,7 +14,7 @@ class OrderSeeder extends Seeder
      */
     public function run(): void
     {
-        Order::factory()->create([
+        DB::table('orders')->insert([
             'quantity' => 4,
             'menu_id' => 1,
             'transaction_id' => 1,

@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Promo;
+use \App\Modules\Shared\Core\Domain\Model\Promo;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use DB;
 
 class PromoSeeder extends Seeder
 {
@@ -13,7 +14,7 @@ class PromoSeeder extends Seeder
      */
     public function run(): void
     {
-        Promo::factory()->create([
+        DB::table('promos')->insert([
             'nama' => 'No Promo',
             'detail' => 'Tidak Menggunakan Promo',
             'persenDiskon' => 0,
@@ -21,9 +22,10 @@ class PromoSeeder extends Seeder
             'expired' => '2999-12-31',
         ]);
 
-        Promo::factory(3)->create();
+        Promo::factory()->insertRecords(3);
         
-        Promo::factory()->create([
+        DB::table('promos')->insert([
+            'nama' => 'Contoh Expired',
             'detail' => 'Contoh Expired',
             'persenDiskon' => 20,
             'maxDiskon' => 300000,

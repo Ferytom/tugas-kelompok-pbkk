@@ -1,11 +1,12 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Modules\Shared\Core\Domain\Model;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use DB;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Menu>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Modules\Shared\Core\Domain\Model\Menu>
  */
 class LocationFactory extends Factory
 {
@@ -19,5 +20,15 @@ class LocationFactory extends Factory
         return [
             'alamat' => fake()->sentence(2),
         ];
+    }
+    
+    public function insertRecords(int $x): void
+    {
+        for ($i = 0; $i < $x; $i++) {
+            $data = [
+                'alamat' => fake()->sentence(2),
+            ];
+            DB::table('locations')->insert($data);
+        }
     }
 }

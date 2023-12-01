@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Location;
+use \App\Modules\Shared\Core\Domain\Model\Location;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use DB;
 
 class LocationSeeder extends Seeder
 {
@@ -13,13 +14,13 @@ class LocationSeeder extends Seeder
      */
     public function run(): void
     {
-        Location::factory()->create([
+        DB::table('locations')->insert([
             'alamat' => 'lokasi 1',
         ]);
-        Location::factory()->create([
+        DB::table('locations')->insert([
             'alamat' => 'lokasi 2',
         ]);
-        Location::factory()->create([
+        DB::table('locations')->insert([
             'alamat' => 'lokasi 3',
         ]);
         

@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Modules\Waitlist\Presentation\Controllers;
+
+use App\Modules\Waitlist\Core\Application\Service\WaitlistService;
+use Cache;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class WaitlistController
+{
+    private $formData = [];
+    private $waitlistService;
+
+    public function __construct(WaitlistService $waitlistService)
+    {
+        $this->waitlistService = $waitlistService;
+    }
+
+    public function index()
+    {
+        $waitlists =$this->waitlistService->getAllWaitlists(); 
+
+        return view('waitlist::index', compact('waitlists'));
+    }
+
+    public function create()
+    {
+        return view('waitlists::create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nama' => 'required|max:255',
+            'jumlahOrang' => 'required|numeric|min:0',
+            'alamat' => 'exists:locations,id'
+        ]);
+
+        $data = [
+            'nama' => $request->input('nama'),
+            'jumlahOrang' => $request->input('jumlahOrang'),
+            'location_id' => $request->input('alamat', Auth::user()->location_id)
+        ];
+
+        $this->waitlistService->createWaitlist($data);
+
+        Cache::forget('waitlists');
+
+        return redirect()->route('waitlist.index')->with('success', 'Waitlist has been created!');
+    }
+
+    public function destroy($id)
+    {
+        $this->waitlistService->deleteWaitlist($id);
+
+        Cache::forget('waitlists');
+    
+        return redirect()->route('waitlist.index')->with('success', 'Waitlist deleted successfully');
+    }
+}

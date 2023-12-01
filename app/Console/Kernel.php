@@ -22,6 +22,12 @@ class Kernel extends ConsoleKernel
     {
         $this->load(__DIR__.'/Commands');
 
+        foreach (scandir($path = app_path('Modules')) as $dir) {
+            if (file_exists($folder_path = "{$path}/{$dir}/Presentation/Commands")) {
+                $this->load($folder_path);
+            }
+        }
+
         require base_path('routes/console.php');
     }
 }

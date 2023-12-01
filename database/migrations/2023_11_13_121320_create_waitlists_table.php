@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('jumlahOrang');
+            $table->foreignId('location_id');
             $table->timestamps();
         });
     }

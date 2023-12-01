@@ -1,11 +1,12 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Modules\Shared\Core\Domain\Model;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use DB;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Waitlist>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Modules\Shared\Core\Domain\Model\Waitlist>
  */
 class WaitlistFactory extends Factory
 {
@@ -19,6 +20,19 @@ class WaitlistFactory extends Factory
         return [
             'nama' => fake()->name(),
             'jumlahOrang' => fake()->numberBetween(1,5),
+            'location_id' => fake()->numberBetween(1,3),
         ];
+    }
+
+    public function insertRecords(int $x): void
+    {
+        for ($i = 0; $i < $x; $i++) {
+            $data = [
+                'nama' => fake()->name(),
+                'jumlahOrang' => fake()->numberBetween(1,5),
+                'location_id' => fake()->numberBetween(1,3),
+            ];
+            DB::table('waitlists')->insert($data);
+        }
     }
 }

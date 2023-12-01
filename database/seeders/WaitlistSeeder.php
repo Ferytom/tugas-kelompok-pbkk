@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Waitlist;
+use \App\Modules\Shared\Core\Domain\Model\Waitlist;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use DB;
 
 class WaitlistSeeder extends Seeder
 {
@@ -13,6 +14,6 @@ class WaitlistSeeder extends Seeder
      */
     public function run(): void
     {
-        Waitlist::factory(5)->create();
+        Waitlist::factory()->insertRecords(5);
     }
 }

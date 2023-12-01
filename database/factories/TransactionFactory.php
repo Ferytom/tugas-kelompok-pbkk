@@ -1,12 +1,13 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Modules\Shared\Core\Domain\Model;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Carbon\Carbon;
+use DB;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Transaction>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Modules\Shared\Core\Domain\Model\Transaction>
  */
 class TransactionFactory extends Factory
 {
@@ -35,9 +36,21 @@ class TransactionFactory extends Factory
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public function octoberState()
+    public function octoberRecords(int $x): void
     {
-        return $this->state(function (array $attributes) {
+        for ($i = 0; $i < $x; $i++) {
+            $data = [
+                'waktu' => '2999-01-01',
+                'keterangan' => '',
+                'hargaTotal' => fake()->numberBetween(1,5)*50000,
+                'statusTransaksi' => 'Belum Dimulai',
+                'noMeja' => fake()->numberBetween(1,15),
+                'isReservasi' => true,
+                'promo_id' => 1,
+                'user_id' => fake()->numberBetween(4,6),
+                'location_id' => fake()->numberBetween(1,3),
+            ];
+
             $currentYear = date('Y');
             $firstDayTimestamp = mktime(0, 0, 0, 10, 1, $currentYear);
             $lastDayTimestamp = mktime(0, 0, 0, 10, date('t', $firstDayTimestamp), $currentYear);
@@ -50,23 +63,62 @@ class TransactionFactory extends Factory
                 $statusTransaksi = 'Belum Dimulai';
             }
 
-            return [
-                'statusTransaksi' => $statusTransaksi,
-                'waktu' => $this->formatTimestampInRange($randomTimestamp),
-            ];
-        });
+            $data['statusTransaksi'] = $statusTransaksi;
+            $data['waktu'] = $this->formatTimestampInRange($randomTimestamp);
+            DB::table('transactions')->insert($data);
+        }
     }
 
-    /**
-     * Define the November before now state for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function novemberBeforeNowState()
+    public function novemberRecords(int $x): void
     {
-        return $this->state(function (array $attributes) {
+        for ($i = 0; $i < $x; $i++) {
+            $data = [
+                'waktu' => '2999-01-01',
+                'keterangan' => '',
+                'hargaTotal' => fake()->numberBetween(1,5)*50000,
+                'statusTransaksi' => 'Belum Dimulai',
+                'noMeja' => fake()->numberBetween(1,15),
+                'isReservasi' => true,
+                'promo_id' => 1,
+                'user_id' => fake()->numberBetween(4,6),
+                'location_id' => fake()->numberBetween(1,3),
+            ];
+
             $currentYear = date('Y');
             $firstDayTimestamp = mktime(0, 0, 0, 11, 1, $currentYear);
+            $lastDayTimestamp = mktime(0, 0, 0, 11, date('t', $firstDayTimestamp), $currentYear);
+
+            $randomTimestamp = rand($firstDayTimestamp, $lastDayTimestamp);
+            $randomTimestamp = Carbon::createFromTimestamp($randomTimestamp, 'UTC')->setTimezone('Asia/Bangkok')->addHours(7);
+
+            $statusTransaksi = 'Selesai';
+            if (rand(0, 9) === 0) {
+                $statusTransaksi = 'Belum Dimulai';
+            }
+
+            $data['statusTransaksi'] = $statusTransaksi;
+            $data['waktu'] = $this->formatTimestampInRange($randomTimestamp);
+            DB::table('transactions')->insert($data);
+        }
+    }
+
+    public function decemberBeforeNowRecords(int $x): void
+    {
+        for ($i = 0; $i < $x; $i++) {
+            $data = [
+                'waktu' => '2999-01-01',
+                'keterangan' => '',
+                'hargaTotal' => fake()->numberBetween(1,5)*50000,
+                'statusTransaksi' => 'Belum Dimulai',
+                'noMeja' => fake()->numberBetween(1,15),
+                'isReservasi' => true,
+                'promo_id' => 1,
+                'user_id' => fake()->numberBetween(4,6),
+                'location_id' => fake()->numberBetween(1,3),
+            ];
+
+            $currentYear = date('Y');
+            $firstDayTimestamp = mktime(0, 0, 0, 12, 1, $currentYear);
             $currentTimestamp = time();
 
             $randomTimestamp = rand($firstDayTimestamp, $currentTimestamp);
@@ -77,46 +129,61 @@ class TransactionFactory extends Factory
                 $statusTransaksi = 'Belum Dimulai';
             }
 
-            return [
-                'statusTransaksi' => $statusTransaksi,
-                'waktu' => $this->formatTimestampInRange($randomTimestamp),
-            ];
-        });
+            $data['statusTransaksi'] = $statusTransaksi;
+            $data['waktu'] = $this->formatTimestampInRange($randomTimestamp);
+            DB::table('transactions')->insert($data);
+        }
     }
 
-    /**
-     * Define the November after now state for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function novemberAfterNowState()
+    public function decemberAfterNowRecords(int $x): void
     {
-        return $this->state(function (array $attributes) {
+        for ($i = 0; $i < $x; $i++) {
+            $data = [
+                'waktu' => '2999-01-01',
+                'keterangan' => '',
+                'hargaTotal' => fake()->numberBetween(1,5)*50000,
+                'statusTransaksi' => 'Belum Dimulai',
+                'noMeja' => fake()->numberBetween(1,15),
+                'isReservasi' => true,
+                'promo_id' => 1,
+                'user_id' => fake()->numberBetween(4,6),
+                'location_id' => fake()->numberBetween(1,3),
+            ];
+
             $currentYear = date('Y');
-            $firstDayTimestamp = mktime(0, 0, 0, 11, 1, $currentYear);
+            $firstDayTimestamp = mktime(0, 0, 0, 12, 1, $currentYear);
             $currentTimestamp = time();
-            $lastDayTimestamp = mktime(0, 0, 0, 11, date('t', $firstDayTimestamp), $currentYear);
+            $lastDayTimestamp = mktime(0, 0, 0, 12, date('t', $firstDayTimestamp), $currentYear);
 
             $randomTimestamp = rand($currentTimestamp, $lastDayTimestamp);
             $randomTimestamp = Carbon::createFromTimestamp($randomTimestamp, 'UTC')->setTimezone('Asia/Bangkok')->addHours(7);
 
-            return [
-                'waktu' => $this->formatTimestampInRange($randomTimestamp),
-            ];
-        });
+            $data['waktu'] = $this->formatTimestampInRange($randomTimestamp);
+            DB::table('transactions')->insert($data);
+        }
     }
 
-    public function offlineState()
+    public function offlineRecords(int $x): void
     {
-        return $this->state(function (array $attributes) {
+        for ($i = 0; $i < $x; $i++) {
+            $data = [
+                'waktu' => '2999-01-01',
+                'keterangan' => '',
+                'hargaTotal' => fake()->numberBetween(1,5)*50000,
+                'statusTransaksi' => 'Selesai',
+                'noMeja' => fake()->numberBetween(1,15),
+                'isReservasi' => true,
+                'promo_id' => 1,
+                'user_id' => fake()->numberBetween(4,6),
+                'location_id' => fake()->numberBetween(1,3),
+            ];
+
             $currentYear = date('Y');
             $firstDayTimestamp = mktime(0, 0, 0, 10, 1, $currentYear);
             $currentTimestamp = time();
 
             $randomTimestamp = rand($firstDayTimestamp, $currentTimestamp);
             $randomTimestamp = Carbon::createFromTimestamp($randomTimestamp, 'UTC')->setTimezone('Asia/Bangkok')->addHours(7);
-
-            $statusTransaksi = 'Selesai';
 
             $userID = rand(0, 100);
             if ($userID < 80) {
@@ -129,13 +196,10 @@ class TransactionFactory extends Factory
                 $userID = 6;
             }
 
-            return [
-                'statusTransaksi' => $statusTransaksi,
-                'waktu' => $this->formatTimestampInRange($randomTimestamp),
-                'isReservasi' => False,
-                'user_id' => $userID,
-            ];
-        });
+            $data['waktu'] = $this->formatTimestampInRange($randomTimestamp);
+            $data['user_id'] = $userID;
+            DB::table('transactions')->insert($data);
+        }
     }
 
     private function formatTimestampInRange(Carbon $timestamp): string

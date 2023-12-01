@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Transaction;
+use \App\Modules\Shared\Core\Domain\Model\Transaction;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use DB;
 
 class TransactionSeeder extends Seeder
 {
@@ -13,10 +14,22 @@ class TransactionSeeder extends Seeder
      */
     public function run(): void
     {
-        Transaction::factory(25)->octoberState()->create();
-        Transaction::factory(20)->novemberBeforeNowState()->create();
-        Transaction::factory(15)->novemberAfterNowState()->create();
-        Transaction::factory(100)->offlineState()->create();
-        Transaction::factory(1)->create();
+        Transaction::factory()->octoberRecords(25);
+        Transaction::factory()->novemberRecords(50);
+        Transaction::factory()->decemberBeforeNowRecords(10);
+        Transaction::factory()->decemberAfterNowRecords(35);
+        Transaction::factory()->offlineRecords(100);
+        
+        DB::table('transactions')->insert([
+            'waktu' => '2999-01-01',
+            'keterangan' => '',
+            'hargaTotal' => fake()->numberBetween(1,5)*50000,
+            'statusTransaksi' => 'Belum Dimulai',
+            'noMeja' => fake()->numberBetween(1,15),
+            'isReservasi' => true,
+            'promo_id' => 1,
+            'user_id' => fake()->numberBetween(4,6),
+            'location_id' => fake()->numberBetween(1,3),
+        ]);
     }
 }

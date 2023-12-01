@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Menu;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Modules\Shared\Core\Domain\Model\Menu;
 use Illuminate\Database\Seeder;
+use DB;
 
 class MenuSeeder extends Seeder
 {
@@ -13,14 +13,14 @@ class MenuSeeder extends Seeder
      */
     public function run(): void
     {
-        Menu::factory()->create([
+        DB::table('menus')->insert([
             'nama' => 'Nasi Goreng',
             'harga' => 25000,
             'deskripsi' => 'Deskripsi Nasi Goreng',
             'pathFoto' => 'nasi-goreng.jpeg',
         ]);
 
-        Menu::factory()->create([
+        DB::table('menus')->insert([
             'nama' => 'Mi Goreng',
             'harga' => 20000,
             'deskripsi' => 'Deskripsi Mi Goreng',
