@@ -9,17 +9,29 @@ use App\Modules\Shared\Core\Domain\Model\Transaction;
 use App\Modules\Shared\Core\Domain\Model\User;
 use App\Modules\Shared\Core\Domain\Model\Location;
 use Illuminate\Database\Eloquent\Collection;
+use Auth;
 
 
 class EloquentNotificationRepository implements NotificationRepository
 {
     public function getNotification(): Collection
     {
-        $notifications = Cache::remember('notifications', 120, function () {
-            $current_date = Carbon::now('Asia/Bangkok');
-            $tomorow_date = Carbon::tomorrow('Asia/Bangkok');
-            return Transaction::where('waktu', '<', $tomorow_date)->where('waktu', '>', $current_date)->where('isReservasi', '=', True)->orderBy('waktu')->get();
-        });
+        if (Auth::user()->role == 'pemilik')
+        {
+            $notifications = Cache::remember('notifications', 120, function () {
+                $current_date = Carbon::now('Asia/Bangkok');
+                $tomorow_date = Carbon::tomorrow('Asia/Bangkok');
+                return Transaction::where('waktu', '<', $tomorow_date)->where('waktu', '>', $current_date)->where('isReservasi', '=', True)->orderBy('waktu')->get();
+            });
+        }
+        else
+        {
+            $notifications = Cache::remember('notifications', 120, function () {
+                $current_date = Carbon::now('Asia/Bangkok');
+                $tomorow_date = Carbon::tomorrow('Asia/Bangkok');
+                return Transaction::where('waktu', '<', $tomorow_date)->where('waktu', '>', $current_date)->where('isReservasi', '=', True)->where('location_id','=',Auth::user()->location_id)->orderBy('waktu')->get();
+            });
+        }
 
         foreach($notifications as $notification)
         {

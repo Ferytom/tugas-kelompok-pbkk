@@ -153,7 +153,7 @@
                             <svg style="margin-right: 8px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DescriptionIcon" height="1.5rem">
                                 <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"></path>
                             </svg>
-                            <a href="{{ route('menu.index') }}" id="menuList">Menu List</a>
+                            <a href="{{ route('promo.index') }}" id="promoList">Promo List</a>
                         </div>
                     @endif
                 </li>
@@ -380,7 +380,7 @@
             document.getElementById('toggleButtonTransaction').click();
             document.getElementById('createTransaction').style.display = 'block';
             document.getElementById('createTransaction').style.backgroundColor = 'yellowgreen';
-        } else {
+        } else if (!(currentPath.startsWith('/notification') || currentPath.startsWith('/menu') || currentPath.startsWith('/promo') || currentPath.startsWith('/reservation') || currentPath.startsWith('/waitlist') || currentPath.startsWith('/employee') || currentPath.startsWith('/transaction'))) {
             document.getElementById('dashboard').style.display = 'block';
             document.getElementById('dashboard').style.width = '70%';
             document.getElementById('dashboard').style.padding = '8px';

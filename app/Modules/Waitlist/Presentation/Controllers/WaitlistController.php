@@ -27,7 +27,8 @@ class WaitlistController
 
     public function create()
     {
-        return view('waitlists::create');
+        $locations = $this->waitlistService->getAllLocations();
+        return view('waitlist::create', compact('locations'));
     }
 
     public function store(Request $request)

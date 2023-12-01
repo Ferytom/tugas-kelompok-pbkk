@@ -20,6 +20,7 @@
                 @error('address')
                     <span class="text-xs text-red-600">{{ $message }}</span>
                 @enderror
+                <div style="padding-bottom: 10px"></div>
             @endif
 
             <label for="jumlahOrang"># People:</label>
