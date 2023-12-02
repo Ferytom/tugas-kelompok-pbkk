@@ -27,6 +27,6 @@ class DeleteWaitlistEntry implements ShouldQueue
      */
     public function handle(): void
     {
-        DB::table('waitlists')->truncate();
+        DB::table('waitlists')->delete();
     }
 }
