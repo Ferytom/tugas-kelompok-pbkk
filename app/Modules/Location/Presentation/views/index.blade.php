@@ -7,37 +7,29 @@
                     onclick="this.parentElement.remove();">{{ 'x' }}</button>
             </div>
     @endif
-    <h1>Employee List</h1>
+    <h1>Location List</h1>
     <table class="data-table">
         <thead>
             <tr>
-                <th>Nama</th>
-                <th>No Telepon</th>
+                <th>Nama Lokasi</th>
                 <th>Alamat</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Location</th>
+                <th>Gooogle Map</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody id="data-table-body">
-            @foreach ($employees as $employee)
+            @foreach ($locations as $location)
                 <tr>
-                    <td>{{ $employee->nama }}</td>
-                    <td>{{ $employee->noTelepon }}</td>
-                    <td>{{ $employee->alamat }}</td>
-                    <td>{{ $employee->email }}</td> 
-                    <td>{{ $employee->role }}</td>   
-                    <td>{{ $employee->location_address }}</td>                   
+                    <td>{{ $location->namaLokasi }}</td>
+                    <td>{{ $location->alamat }}</td>
+                    <td>{{ $location->googleMap }}</td> 
                     <td>
-                        @if($employee->role != 'pemilik')
-                        <a href="{{ route('employee.edit', $employee->id) }}" class="btn-info mr-2">Edit</a>
-                        <form action="{{ route('employee.destroy', $employee->id) }}" method="POST">
+                        <a href="{{ route('location.edit', $location->id) }}" class="btn-info mr-2">Edit</a>
+                        <form action="{{ route('location.destroy', $location->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
                         </form>
-                        @endif
                     </td>
                 </tr>
             @endforeach

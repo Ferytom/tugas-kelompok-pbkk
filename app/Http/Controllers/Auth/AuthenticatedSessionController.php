@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Cache;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -43,7 +44,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        $request->session()->flash('logout', true);
+        Cache::flush();
 
         return redirect('/');
     }

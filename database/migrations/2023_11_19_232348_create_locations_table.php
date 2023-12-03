@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
+            $table->string('namaLokasi');
             $table->string('alamat');
+            $table->string('googleMap')->nullable();
             $table->timestamps();
         });
     }

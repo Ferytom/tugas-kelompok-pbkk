@@ -26,6 +26,7 @@ class LocationFactory extends Factory
     {
         for ($i = 0; $i < $x; $i++) {
             $data = [
+                'namaLokasi' => fake()->sentence(2),
                 'alamat' => fake()->sentence(2),
             ];
             DB::table('locations')->insert($data);

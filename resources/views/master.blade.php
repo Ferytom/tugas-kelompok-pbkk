@@ -267,6 +267,42 @@
                     </div>
                 </div>
             @endif
+            @if ((Auth::check()) && (Auth::user()->role == 'pemilik'))
+                <div id="Location" style="margin-top: 10px">
+                    <div tabindex="0" role="button" id="toggleButtonLocation" style="display: flex; align-items: center; cursor: pointer;">
+                        <svg style="margin-right: 8px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DescriptionIcon" height="1.5rem">
+                            <path d="M18.092,5.137l-3.977-1.466h-0.006c0.084,0.042-0.123-0.08-0.283,0H13.82L10,5.079L6.178,3.671H6.172c0.076,0.038-0.114-0.076-0.285,0H5.884L1.908,5.137c-0.151,0.062-0.25,0.207-0.25,0.369v10.451c0,0.691,0.879,0.244,0.545,0.369l3.829-1.406l3.821,1.406c0.186,0.062,0.385-0.029,0.294,0l3.822-1.406l3.83,1.406c0.26,0.1,0.543-0.08,0.543-0.369V5.506C18.342,5.344,18.242,5.199,18.092,5.137 M5.633,14.221l-3.181,1.15V5.776l3.181-1.15V14.221z M9.602,15.371l-3.173-1.15V4.626l3.173,1.15V15.371z M13.57,14.221l-3.173,1.15V5.776l3.173-1.15V14.221z M17.547,15.371l-3.182-1.15V4.626l3.182,1.15V15.371z"></path>
+                        </svg>
+                        <div>
+                            <span>Locations</span>
+                        </div>
+                        <svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ExpandLessIcon" height="1.5rem">
+                            <path d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z" id="arrowPathTransaction"></path>
+                        </svg>
+                        <span></span>
+                    </div>
+                    <div id="dataSectionLocation" style="display:none">
+                        <li id="locationList">
+                            <div tabindex="-1" role="button">
+                                <svg style="margin-right: 8px; vertical-align: middle;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" height="1.5rem">
+                                    <path d="m10 17 5-5-5-5v10z"></path>
+                                </svg>
+                                <a href="{{ route('location.index') }}">Location List</a>
+                                <span></span>
+                            </div>
+                        </li>
+                        <li id="createLocation">
+                            <div tabindex="-1" role="button">
+                                <svg style="margin-right: 8px; vertical-align: middle;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowRightIcon" height="1.5rem">
+                                    <path d="m10 17 5-5-5-5v10z"></path>
+                                </svg>
+                                <a href="{{ route('location.create') }}">Add New Location</a>
+                                <span></span>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+            @endif
         </ul>
     </div>
 
@@ -286,6 +322,8 @@
         var arrowPathPromo = document.getElementById('arrowPathPromo');
         var dataSectionTransaction = document.getElementById('dataSectionTransaction');
         var arrowPathTransaction = document.getElementById('arrowPathTransaction');
+        var dataSectionLocation = document.getElementById('dataSectionLocation');
+        var arrowPathLocation = document.getElementById('arrowPathLocation');
         var currentPath = window.location.pathname;
 
         document.getElementById('toggleButtonMenu').addEventListener('click', function () {
@@ -325,6 +363,16 @@
                 arrowPathTransaction.setAttribute('d', 'M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z');
             } else {
                 arrowPathTransaction.setAttribute('d', 'm12 8-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z');
+            }
+        });
+
+        document.getElementById('toggleButtonLocation').addEventListener('click', function () {
+            dataSectionLocation.style.display = (dataSectionLocation.style.display === 'none' || dataSectionLocation.style.display === '') ? 'block' : 'none';
+
+            if (dataSectionLocation.style.display === 'none') {
+                arrowPathLocation.setAttribute('d', 'M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z');
+            } else {
+                arrowPathLocation.setAttribute('d', 'm12 8-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z');
             }
         });
 
@@ -380,25 +428,26 @@
             document.getElementById('toggleButtonTransaction').click();
             document.getElementById('createTransaction').style.display = 'block';
             document.getElementById('createTransaction').style.backgroundColor = 'yellowgreen';
-        } else if (!(currentPath.startsWith('/notification') || currentPath.startsWith('/menu') || currentPath.startsWith('/promo') || currentPath.startsWith('/reservation') || currentPath.startsWith('/waitlist') || currentPath.startsWith('/employee') || currentPath.startsWith('/transaction'))) {
-            document.getElementById('dashboard').style.display = 'block';
-            document.getElementById('dashboard').style.width = '70%';
-            document.getElementById('dashboard').style.padding = '8px';
-            document.getElementById('dashboard').style.backgroundColor = 'yellowgreen';
-        } 
-
-
-        var isLoggedOut = {!! json_encode(session()->has('logout')) !!};
-
-        if (isLoggedOut) {
-            localStorage.clear();
-
-            sessionStorage.clear();
-
-            window.location.href = '/';
+        } else if (currentPath === '/location') {
+            document.getElementById('toggleButtonLocation').click();
+            document.getElementById('locationList').style.display = 'block';
+            document.getElementById('locationList').style.backgroundColor = 'yellowgreen';
+        } else if (currentPath === '/location/create') {
+            document.getElementById('toggleButtonLocation').click();
+            document.getElementById('createLocation').style.display = 'block';
+            document.getElementById('createLocation').style.backgroundColor = 'yellowgreen';
+        } else if (currentPath.startsWith('/menu')) {
+            document.getElementById('toggleButtonMenu').click();
+        } else if (currentPath.startsWith('/promo')) {
+            document.getElementById('toggleButtonPromo').click();
+        } else if (currentPath.startsWith('/reservation')) {
+            document.getElementById('toggleButtonReservation').click();
+        } else if (currentPath.startsWith('/transaction')) {
+            document.getElementById('toggleButtonTransaction').click();
+        } else if (currentPath.startsWith('/location')) {
+            document.getElementById('toggleButtonLocation').click();
         }
     });
     </script>
-
 </body>
 </html>

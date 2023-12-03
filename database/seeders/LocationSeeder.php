@@ -15,13 +15,24 @@ class LocationSeeder extends Seeder
     public function run(): void
     {
         DB::table('locations')->insert([
-            'alamat' => 'lokasi 1',
+            'namaLokasi' => 'Papercup Tunjungan',
+            'alamat' => 'Jl. Tunjungan No. 64',
+            'googleMap' => 'https://maps.app.goo.gl/BipQ9wA3XdiL6FTf8',
         ]);
         DB::table('locations')->insert([
-            'alamat' => 'lokasi 2',
+            'namaLokasi' => 'Papercup Manyar',
+            'alamat' => 'Jl. Manyar Kertoarjo No. 75',
+            'googleMap' => 'https://maps.app.goo.gl/f7RTgPYRcnsjCH9c8',
         ]);
         DB::table('locations')->insert([
-            'alamat' => 'lokasi 3',
+            'namaLokasi' => 'Papercup Kayoon',
+            'alamat' => 'Jl. Kayoon No. 48',
+            'googleMap' => 'https://maps.app.goo.gl/FG5FKvSyP6rWSUfK8',
+        ]);
+        DB::table('locations')->insert([
+            'namaLokasi' => 'Papercup Citraland',
+            'alamat' => 'Jl. Telaga Utama Blok TC - 3',
+            'googleMap' => 'https://maps.app.goo.gl/LV8QrmrJ8xvnwVyS8',
         ]);
         
     }

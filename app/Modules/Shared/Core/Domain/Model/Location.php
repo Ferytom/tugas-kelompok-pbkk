@@ -9,7 +9,9 @@ class Location extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'namaLokasi',
         'alamat',
+        'googleMap'
     ];
 
     public function users()

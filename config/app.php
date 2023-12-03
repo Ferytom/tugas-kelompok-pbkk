@@ -176,7 +176,9 @@ return [
         App\Modules\Report\Infrastructure\Providers\ReportServiceProvider::class,
         App\Modules\Reservation\Infrastructure\Providers\ReservationServiceProvider::class,
         App\Modules\Transaction\Infrastructure\Providers\TransactionServiceProvider::class,
-        App\Modules\Waitlist\Infrastructure\Providers\WaitlistServiceProvider::class
+        App\Modules\Waitlist\Infrastructure\Providers\WaitlistServiceProvider::class,
+        App\Modules\Dashboard\Infrastructure\Providers\DashboardServiceProvider::class,
+        App\Modules\Location\Infrastructure\Providers\LocationServiceProvider::class
     ])->toArray(),
 
     /*

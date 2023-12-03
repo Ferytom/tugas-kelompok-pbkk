@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Modules\Dashboard\Core\Domain\Repository\DashboardRepository;
+use App\Modules\Dashboard\Infrastructure\Repository\EloquentDashboardRepository;
 use App\Modules\Employee\Core\Domain\Repository\EmployeeRepository;
 use App\Modules\Employee\Infrastructure\Repository\EloquentEmployeeRepository;
+use App\Modules\Location\Core\Domain\Repository\LocationRepository;
+use App\Modules\Location\Infrastructure\Repository\EloquentLocationRepository;
 use App\Modules\Member\Core\Domain\Repository\MemberRepository;
 use App\Modules\Member\Infrastructure\Repository\EloquentMemberRepository;
 use App\Modules\Menu\Core\Domain\Repository\MenuRepository;
@@ -41,6 +45,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ReservationRepository::class, EloquentReservationRepository::class);
         $this->app->bind(TransactionRepository::class, EloquentTransactionRepository::class);
         $this->app->bind(WaitlistRepository::class, EloquentWaitlistRepository::class);
+        $this->app->bind(DashboardRepository::class, EloquentDashboardRepository::class);
+        $this->app->bind(LocationRepository::class, EloquentLocationRepository::class);
     }
 
     /**
