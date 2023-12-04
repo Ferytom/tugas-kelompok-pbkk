@@ -74,7 +74,7 @@
         </tbody>
     </table>
 
-    <h3>Best Food</h3>
+    <h3>Most Popular Food</h3>
     <table class="data-table">
         <thead>
             <tr>
