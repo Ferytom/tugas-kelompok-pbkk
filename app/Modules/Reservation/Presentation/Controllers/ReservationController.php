@@ -24,8 +24,9 @@ class ReservationController
         $completed_reservations = $this->reservationService->getCompletedReservations();
         $ongoing_reservations = $this->reservationService->getOngoingReservations();
         $expired_reservations = $this->reservationService->getExpiredReservations();
+        $locations = $this->reservationService->getAllLocations();
 
-        return view('reservation::index', compact('completed_reservations', 'ongoing_reservations', 'expired_reservations'));
+        return view('reservation::index', compact('completed_reservations', 'ongoing_reservations', 'expired_reservations', 'locations'));
     }
 
     public function create()
