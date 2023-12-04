@@ -20,7 +20,7 @@ class WaitlistFactory extends Factory
         return [
             'nama' => fake()->name(),
             'jumlahOrang' => fake()->numberBetween(1,5),
-            'location_id' => fake()->numberBetween(1,3),
+            'location_id' => fake()->numberBetween(1,4),
         ];
     }
 
@@ -30,7 +30,7 @@ class WaitlistFactory extends Factory
             $data = [
                 'nama' => fake()->name(),
                 'jumlahOrang' => fake()->numberBetween(1,5),
-                'location_id' => fake()->numberBetween(1,3),
+                'location_id' => fake()->numberBetween(1,4),
             ];
             DB::table('waitlists')->insert($data);
         }

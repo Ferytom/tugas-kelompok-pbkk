@@ -18,7 +18,8 @@ class TransactionSeeder extends Seeder
         Transaction::factory()->novemberRecords(50);
         Transaction::factory()->decemberBeforeNowRecords(10);
         Transaction::factory()->decemberAfterNowRecords(35);
-        Transaction::factory()->offlineRecords(100);
+        Transaction::factory()->offlineRecords(300);
+        Transaction::factory()->ongoingTransactions(35);
         
         DB::table('transactions')->insert([
             'waktu' => '2999-01-01',
@@ -29,7 +30,7 @@ class TransactionSeeder extends Seeder
             'isReservasi' => true,
             'promo_id' => 1,
             'user_id' => fake()->numberBetween(4,6),
-            'location_id' => fake()->numberBetween(1,3),
+            'location_id' => fake()->numberBetween(1,4),
         ]);
     }
 }

@@ -27,7 +27,7 @@ class TransactionFactory extends Factory
             'isReservasi' => true,
             'promo_id' => 1,
             'user_id' => fake()->numberBetween(4,6),
-            'location_id' => fake()->numberBetween(1,3),
+            'location_id' => fake()->numberBetween(1,4),
         ];
     }
 
@@ -48,7 +48,7 @@ class TransactionFactory extends Factory
                 'isReservasi' => true,
                 'promo_id' => 1,
                 'user_id' => fake()->numberBetween(4,6),
-                'location_id' => fake()->numberBetween(1,3),
+                'location_id' => fake()->numberBetween(1,4),
             ];
 
             $currentYear = date('Y');
@@ -81,7 +81,7 @@ class TransactionFactory extends Factory
                 'isReservasi' => true,
                 'promo_id' => 1,
                 'user_id' => fake()->numberBetween(4,6),
-                'location_id' => fake()->numberBetween(1,3),
+                'location_id' => fake()->numberBetween(1,4),
             ];
 
             $currentYear = date('Y');
@@ -114,7 +114,7 @@ class TransactionFactory extends Factory
                 'isReservasi' => true,
                 'promo_id' => 1,
                 'user_id' => fake()->numberBetween(4,6),
-                'location_id' => fake()->numberBetween(1,3),
+                'location_id' => fake()->numberBetween(1,4),
             ];
 
             $currentYear = date('Y');
@@ -147,7 +147,7 @@ class TransactionFactory extends Factory
                 'isReservasi' => true,
                 'promo_id' => 1,
                 'user_id' => fake()->numberBetween(4,6),
-                'location_id' => fake()->numberBetween(1,3),
+                'location_id' => fake()->numberBetween(1,4),
             ];
 
             $currentYear = date('Y');
@@ -175,7 +175,7 @@ class TransactionFactory extends Factory
                 'isReservasi' => true,
                 'promo_id' => 1,
                 'user_id' => fake()->numberBetween(4,6),
-                'location_id' => fake()->numberBetween(1,3),
+                'location_id' => fake()->numberBetween(1,4),
             ];
 
             $currentYear = date('Y');
@@ -201,6 +201,46 @@ class TransactionFactory extends Factory
             DB::table('transactions')->insert($data);
         }
     }
+
+    public function ongoingTransactions(int $x): void
+    {
+        for ($i = 0; $i < $x; $i++) {
+            $data = [
+                'waktu' => '2999-01-01',
+                'keterangan' => '',
+                'hargaTotal' => fake()->numberBetween(1, 5) * 50000,
+                'statusTransaksi' => 'Sedang Berjalan',
+                'noMeja' => fake()->numberBetween(1, 15),
+                'isReservasi' => true,
+                'promo_id' => 1,
+                'user_id' => fake()->numberBetween(4, 6),
+                'location_id' => fake()->numberBetween(1, 4),
+            ];
+
+            $currentYear = date('Y');
+            $firstDayTimestamp = mktime(0, 0, 0, 10, 1, $currentYear);
+            $currentTimestamp = time();
+
+            $randomTimestamp = rand($firstDayTimestamp, $currentTimestamp);
+            $randomTimestamp = Carbon::createFromTimestamp($randomTimestamp, 'UTC')->setTimezone('Asia/Bangkok')->addHours(7);
+
+            $userID = rand(0, 100);
+            if ($userID < 98) {
+                $userID = 1;
+            } else if ($userID < 99) {
+                $userID = 4;
+            } else if ($userID < 100) {
+                $userID = 5;
+            } else {
+                $userID = 6;
+            }
+
+            $data['waktu'] = $this->formatTimestampInRange($randomTimestamp);
+            $data['user_id'] = $userID;
+            DB::table('transactions')->insert($data);
+        }
+    }
+
 
     private function formatTimestampInRange(Carbon $timestamp): string
     {
