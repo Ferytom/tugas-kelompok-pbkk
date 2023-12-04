@@ -25,6 +25,11 @@ class WaitlistService
         return $this->waitlistRepository->getAllLocations();
     }
 
+    public function getWaitlistById(int $waitlistId): Waitlist
+    {
+        return $this->waitlistRepository->getWaitlistById($waitlistId);
+    }
+
     public function createWaitlist(array $data): Waitlist
     {
         return $this->waitlistRepository->createWaitlist($data);

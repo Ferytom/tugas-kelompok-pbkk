@@ -90,7 +90,7 @@ class TransactionController
 
         if((Auth::user()->role != 'pemilik') && (Auth::user()->location_id != $transaction->location_id))
         {
-            return redirect()->route('transaction.index')->with('success', 'You do not have permission to edit this reservation');
+            return redirect()->route('transaction.index')->with('error', 'You do not have permission to edit this reservation');
         }
 
         return view('transaction::edit', compact('transaction', 'orders', 'locations', 'menus', 'promos', 'members'));
@@ -111,7 +111,7 @@ class TransactionController
 
         if((Auth::user()->role != 'pemilik') && (Auth::user()->location_id != $transaction->location_id))
         {
-            return redirect()->route('transaction.index')->with('success', 'You do not have permission to edit this reservation');
+            return redirect()->route('transaction.index')->with('error', 'You do not have permission to edit this reservation');
         }
 
         $data = [
@@ -157,7 +157,7 @@ class TransactionController
 
         if((Auth::user()->role != 'pemilik') && (Auth::user()->location_id != $transaction->location_id))
         {
-            return redirect()->route('transaction.index')->with('success', 'You do not have permission to view this transaction');
+            return redirect()->route('transaction.index')->with('error', 'You do not have permission to view this transaction');
         }
 
         return view('transaction::detail', compact('transaction', 'orders', 'promo'));
@@ -168,7 +168,7 @@ class TransactionController
         $transaction = $this->transactionService->getTransactionById($id);
         if((Auth::user()->role != 'pemilik') && (Auth::user()->location_id != $transaction->location_id))
         {   
-            return redirect()->route('transaction.index')->with('success', 'You do not have permission to delete this reservation');
+            return redirect()->route('transaction.index')->with('error', 'You do not have permission to delete this reservation');
         }
 
         $this->transactionService->deleteOrder($id);

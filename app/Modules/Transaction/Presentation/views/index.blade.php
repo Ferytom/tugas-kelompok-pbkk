@@ -1,8 +1,15 @@
 @extends('master')
 @section('content')
     @if (session('success'))
-            <div class="alert alert-success mt-5 flex justify-between">
+            <div class="alert-success mt-5 flex justify-between">
                 {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert"
+                    onclick="this.parentElement.remove();">{{ 'x' }}</button>
+            </div>
+    @endif
+    @if (session('error'))
+            <div class="alert-error mt-5 flex justify-between">
+                {{ session('error') }}
                 <button type="button" class="close" data-dismiss="alert"
                     onclick="this.parentElement.remove();">{{ 'x' }}</button>
             </div>

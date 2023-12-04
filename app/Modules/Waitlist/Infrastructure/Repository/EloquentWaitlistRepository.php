@@ -38,12 +38,15 @@ class EloquentWaitlistRepository implements WaitlistRepository
         return $waitlists;
     }
 
-    public function getAllLocations(): Collection
+    public function getAllLocations(int $waitlistId): Collection
     {
-        $locations = Cache::remember('locations', 120, function () {
-            return Location::all();
-        });
-        return $locations;
+        $waitlist = Waitlist::findOrFail($waitlistId);
+        return $waitlist;
+    }
+    
+    public function getWaitlistById(int $id): Waitlist
+    {
+        return $this->waitlistRepository->getWaitlistById();
     }
 
     public function createWaitlist(array $data): Waitlist

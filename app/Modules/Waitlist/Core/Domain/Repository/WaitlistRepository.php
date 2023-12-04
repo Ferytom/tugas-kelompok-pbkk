@@ -12,6 +12,8 @@ interface WaitlistRepository
 
     public function getAllLocations(): Collection;
 
+    public function getWaitlistById(int $waitlistId): Waitlist;
+
     public function createWaitlist(array $data): Waitlist;
 
     public function deleteWaitlist(int $waitlistId): void;

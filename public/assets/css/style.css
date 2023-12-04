@@ -470,3 +470,37 @@ body {
     display: flex;
     justify-content: space-between;
 }
+
+.alert-success {
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    position: relative;
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+}
+
+.alert-error {
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    position: relative;
+    color: #721c24;
+    background-color: #f58b94;
+    border-color: #f5c6cb;
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 15px;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #155724;
+}

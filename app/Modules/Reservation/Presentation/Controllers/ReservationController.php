@@ -101,7 +101,7 @@ class ReservationController
 
         if(((Auth::user()->role == 'pelanggan') && (Auth::user()->id != $reservation->user_id)) || ((Auth::user()->role != 'pelanggan') && (Auth::user()->location_id != $reservation->location_id)))
         {
-            return redirect()->route('reservation.index')->with('success', 'You do not have permission to edit this reservation');
+            return redirect()->route('reservation.index')->with('error', 'You do not have permission to edit this reservation');
         }
 
         $currentDate = Carbon::now('Asia/Bangkok');
@@ -110,7 +110,7 @@ class ReservationController
         $hoursDifference = $currentDate->diffInHours($reservationDate);
 
         if ($hoursDifference < 24+7) {
-            return redirect()->route('reservation.index')->with('success', 'You can only edit this reservation until H-24 hours');
+            return redirect()->route('reservation.index')->with('error', 'You can only edit this reservation until H-24 hours');
         }
 
         return view('reservation::edit', compact('reservation', 'orders', 'locations', 'menus', 'promos'));
@@ -139,7 +139,7 @@ class ReservationController
 
         if(((Auth::user()->role == 'pelanggan') && (Auth::user()->id != $reservation->user_id)) || ((Auth::user()->role != 'pelanggan') && (Auth::user()->location_id != $reservation->location_id)))
         {
-            return redirect()->route('reservation.index')->with('success', 'You do not have permission to edit this reservation');
+            return redirect()->route('reservation.index')->with('error', 'You do not have permission to edit this reservation');
         }
 
         $currentDate = Carbon::now('Asia/Bangkok');
@@ -196,7 +196,7 @@ class ReservationController
 
         if(((Auth::user()->role == 'pelanggan') && (Auth::user()->id != $reservation->user_id)) || ((Auth::user()->role != 'pelanggan') && (Auth::user()->location_id != $reservation->location_id)))
         {
-            return redirect()->route('reservation.index')->with('success', 'You do not have permission to view this reservation');
+            return redirect()->route('reservation.index')->with('error', 'You do not have permission to view this reservation');
         }
 
         return view('reservation::detail', compact('reservation', 'orders', 'promo'));
@@ -213,7 +213,7 @@ class ReservationController
             $hoursDifference = $currentDate->diffInHours($reservationDate);
 
             if ($hoursDifference < 24+7) {
-                return redirect()->route('reservation.index')->with('success', 'You can only delete this reservation until H-24 hours');
+                return redirect()->route('reservation.index')->with('error', 'You can only delete this reservation until H-24 hours');
             }
             
             $this->reservationService->deleteOrder($id);
@@ -229,6 +229,6 @@ class ReservationController
 
             return redirect()->route('reservation.index')->with('success', 'Reservation deleted successfully');
         }
-        return redirect()->route('reservation.index')->with('success', 'You do not have permission to delete this reservation');
+        return redirect()->route('reservation.index')->with('error', 'You do not have permission to delete this reservation');
     }
 }

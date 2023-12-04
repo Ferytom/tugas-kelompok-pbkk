@@ -36,7 +36,7 @@ class WaitlistController
         $validated = $request->validate([
             'nama' => 'required|max:255',
             'jumlahOrang' => 'required|numeric|min:0',
-            'alamat' => 'exists:locations,id'
+            'alamat' => 'required|exists:locations,id'
         ]);
 
         $data = [
@@ -54,6 +54,12 @@ class WaitlistController
 
     public function destroy($id)
     {
+        $waitlist = $this->waitlistService->getWaitlistById($id);
+        if((Auth::user()->role != 'pemilik') && (Auth::user()->location_id != $waitlist->location_id))
+        {   
+            return redirect()->route('waitlist.index')->with('error', 'You do not have permission to delete this waitlist');
+        }
+
         $this->waitlistService->deleteWaitlist($id);
 
         Cache::forget('waitlists');
