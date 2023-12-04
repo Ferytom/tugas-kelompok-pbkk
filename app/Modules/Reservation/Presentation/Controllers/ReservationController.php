@@ -195,7 +195,7 @@ class ReservationController
 
         $promo = $this->reservationService->getPromoById($id);
 
-        if(((Auth::user()->role == 'pelanggan') && (Auth::user()->id != $reservation->user_id)) || ((Auth::user()->role != 'pelanggan') && (Auth::user()->location_id != $reservation->location_id)))
+        if(((Auth::user()->role == 'pelanggan') && (Auth::user()->id != $reservation->user_id)) || ((Auth::user()->role != 'pelanggan') && (Auth::user()->role != 'pemilik') && (Auth::user()->location_id != $reservation->location_id)))
         {
             return redirect()->route('reservation.index')->with('error', 'You do not have permission to view this reservation');
         }
