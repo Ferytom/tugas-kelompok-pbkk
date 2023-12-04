@@ -18,5 +18,7 @@ interface ReportRepository
 
     public function getBestLocation(): Collection;
 
+    public function getBestFood(): Collection;
+
     public function getTotalIncome(Collection $groupedTransactions): Collection;
 }

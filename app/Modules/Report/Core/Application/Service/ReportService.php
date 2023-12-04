@@ -44,6 +44,11 @@ class ReportService
         return $this->reportRepository->getBestLocation();
     }
 
+    public function getBestFood(): Collection
+    {
+        return $this->reportRepository->getBestFood();
+    }
+
     public function getTotalIncome(Collection $groupedTransactions): Collection
     {
         return $this->reportRepository->getTotalIncome($groupedTransactions);

@@ -7,6 +7,8 @@ use Carbon\Carbon;
 
 use App\Modules\Shared\Core\Domain\Model\Transaction;
 use App\Modules\Shared\Core\Domain\Model\User;
+use App\Modules\Shared\Core\Domain\Model\Menu;
+use App\Modules\Shared\Core\Domain\Model\Order;
 use App\Modules\Shared\Core\Domain\Model\Location;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -109,6 +111,27 @@ class EloquentReportRepository implements ReportRepository
         $bestLocations = $bestLocations->take(5);
 
         return $bestLocations;
+    }
+
+    public function getBestFood(): Collection
+    {
+        $bestMenus = Menu::all();
+        foreach($bestMenus as $menu)
+        {
+            $menu->jumlahOrder = Order::where('menu_id', '=', $menu->id)->sum('quantity');
+        }
+
+        $bestMenus = $bestMenus->sort(function ($menuA, $menuB) {
+            $compareTotalOrder = $menuB->jumlahOrder - $menuA->jumlahOrder;
+        
+            return $compareTotalOrder !== 0
+                ? $compareTotalOrder
+                : $menuB->jumlahOrder - $menuA->jumlahOrder;
+        });
+
+        $bestMenus = $bestMenus->take(5);
+
+        return $bestMenus;
     }
 
     public function getTotalIncome(Collection $groupedTransactions): Collection

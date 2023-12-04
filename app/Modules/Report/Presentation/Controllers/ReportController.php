@@ -49,7 +49,9 @@ class ReportController
 
         $bestLocations = $this->reportService->getBestLocation();
 
-        return view('report::misc', compact('highestTotalTransactions', 'bestMembers', 'bestLocations'));
+        $bestFoods = $this->reportService->getBestFood();
+
+        return view('report::misc', compact('highestTotalTransactions', 'bestMembers', 'bestLocations', 'bestFoods'));
     }
     
 }

@@ -73,5 +73,25 @@
             @endforeach
         </tbody>
     </table>
+
+    <h3>Best Food</h3>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Menu Name</th>
+                <th>Menu Price</th>
+                <th>Number of Orders</th>
+            </tr>
+        </thead>
+        <tbody id="data-table-body">
+            @foreach($bestFoods as $menu)
+                <tr>
+                    <td>{{ $menu->nama }}</td>
+                    <td>Rp {{ number_format($menu->harga, 0, ',', '.') }}</td>
+                    <td>{{ $menu->jumlahOrder }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
     
 @endsection
