@@ -51,6 +51,10 @@ body {
     opacity: 0;
 }
 
+.menu-bar.collapsed span {
+    opacity: 0;
+}
+
 .menu-toggle {
     display: inline-block;
     width: 30px;
