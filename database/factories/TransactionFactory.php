@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Modules\Shared\Core\Domain\Model;
 
+use App\Modules\Shared\Core\Domain\Model\Transaction;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Carbon\Carbon;
 use DB;
@@ -46,7 +47,7 @@ class TransactionFactory extends Factory
                 'statusTransaksi' => 'Belum Dimulai',
                 'noMeja' => fake()->numberBetween(1,15),
                 'isReservasi' => true,
-                'promo_id' => 1,
+                'promo_id' => fake()->numberBetween(1,4),
                 'user_id' => fake()->numberBetween(4,6),
                 'location_id' => fake()->numberBetween(1,4),
             ];
@@ -65,7 +66,35 @@ class TransactionFactory extends Factory
 
             $data['statusTransaksi'] = $statusTransaksi;
             $data['waktu'] = $this->formatTimestampInRange($randomTimestamp);
-            DB::table('transactions')->insert($data);
+            $reservation = Transaction::create($data);
+
+            $jumlahMenu = DB::table('menus')->count();
+            $hargaTotal = 0;
+            while($hargaTotal == 0)
+            {
+                for($m=1; $m <= $jumlahMenu; $m++)
+                {
+                    $menu = DB::table('menus')->where('id','=',$m)->first();
+                    $jumlahOrder = rand(0,4);
+                    if ($jumlahOrder > 0)
+                    {
+                        $orderData = [
+                            'quantity' => $jumlahOrder,
+                            'menu_id' => $m,
+                            'transaction_id' => $reservation->id,
+                        ];
+                        $hargaTotal = $hargaTotal + $menu->harga * $jumlahOrder;
+                        DB::table('orders')->insert($orderData);
+                    }
+                }
+            }
+            $promo = DB::table('promos')->where('id', '=', $reservation->promo_id)->first();
+            $promoPersenDiskon = $promo->persenDiskon;
+            $promoMaxDiskon = $promo->maxDiskon;
+            $totalDiskon = min($hargaTotal*$promoPersenDiskon/100, $promoMaxDiskon);
+            $hargaTotal = max($hargaTotal - $totalDiskon, 0);
+            $reservation->hargaTotal = $hargaTotal;
+            $reservation->save();
         }
     }
 
@@ -79,7 +108,7 @@ class TransactionFactory extends Factory
                 'statusTransaksi' => 'Belum Dimulai',
                 'noMeja' => fake()->numberBetween(1,15),
                 'isReservasi' => true,
-                'promo_id' => 1,
+                'promo_id' => fake()->numberBetween(1,4),
                 'user_id' => fake()->numberBetween(4,6),
                 'location_id' => fake()->numberBetween(1,4),
             ];
@@ -98,7 +127,35 @@ class TransactionFactory extends Factory
 
             $data['statusTransaksi'] = $statusTransaksi;
             $data['waktu'] = $this->formatTimestampInRange($randomTimestamp);
-            DB::table('transactions')->insert($data);
+            $reservation = Transaction::create($data);
+
+            $jumlahMenu = DB::table('menus')->count();
+            $hargaTotal = 0;
+            while($hargaTotal == 0)
+            {
+                for($m=1; $m <= $jumlahMenu; $m++)
+                {
+                    $menu = DB::table('menus')->where('id','=',$m)->first();
+                    $jumlahOrder = rand(0,4);
+                    if ($jumlahOrder > 0)
+                    {
+                        $orderData = [
+                            'quantity' => $jumlahOrder,
+                            'menu_id' => $m,
+                            'transaction_id' => $reservation->id,
+                        ];
+                        $hargaTotal = $hargaTotal + $menu->harga * $jumlahOrder;
+                        DB::table('orders')->insert($orderData);
+                    }
+                }
+            }
+            $promo = DB::table('promos')->where('id', '=', $reservation->promo_id)->first();
+            $promoPersenDiskon = $promo->persenDiskon;
+            $promoMaxDiskon = $promo->maxDiskon;
+            $totalDiskon = min($hargaTotal*$promoPersenDiskon/100, $promoMaxDiskon);
+            $hargaTotal = max($hargaTotal - $totalDiskon, 0);
+            $reservation->hargaTotal = $hargaTotal;
+            $reservation->save();
         }
     }
 
@@ -112,7 +169,7 @@ class TransactionFactory extends Factory
                 'statusTransaksi' => 'Belum Dimulai',
                 'noMeja' => fake()->numberBetween(1,15),
                 'isReservasi' => true,
-                'promo_id' => 1,
+                'promo_id' => fake()->numberBetween(1,4),
                 'user_id' => fake()->numberBetween(4,6),
                 'location_id' => fake()->numberBetween(1,4),
             ];
@@ -131,7 +188,35 @@ class TransactionFactory extends Factory
 
             $data['statusTransaksi'] = $statusTransaksi;
             $data['waktu'] = $this->formatTimestampInRange($randomTimestamp);
-            DB::table('transactions')->insert($data);
+            $reservation = Transaction::create($data);
+
+            $jumlahMenu = DB::table('menus')->count();
+            $hargaTotal = 0;
+            while($hargaTotal == 0)
+            {
+                for($m=1; $m <= $jumlahMenu; $m++)
+                {
+                    $menu = DB::table('menus')->where('id','=',$m)->first();
+                    $jumlahOrder = rand(0,4);
+                    if ($jumlahOrder > 0)
+                    {
+                        $orderData = [
+                            'quantity' => $jumlahOrder,
+                            'menu_id' => $m,
+                            'transaction_id' => $reservation->id,
+                        ];
+                        $hargaTotal = $hargaTotal + $menu->harga * $jumlahOrder;
+                        DB::table('orders')->insert($orderData);
+                    }
+                }
+            }
+            $promo = DB::table('promos')->where('id', '=', $reservation->promo_id)->first();
+            $promoPersenDiskon = $promo->persenDiskon;
+            $promoMaxDiskon = $promo->maxDiskon;
+            $totalDiskon = min($hargaTotal*$promoPersenDiskon/100, $promoMaxDiskon);
+            $hargaTotal = max($hargaTotal - $totalDiskon, 0);
+            $reservation->hargaTotal = $hargaTotal;
+            $reservation->save();
         }
     }
 
@@ -145,7 +230,7 @@ class TransactionFactory extends Factory
                 'statusTransaksi' => 'Belum Dimulai',
                 'noMeja' => fake()->numberBetween(1,15),
                 'isReservasi' => true,
-                'promo_id' => 1,
+                'promo_id' => fake()->numberBetween(1,4),
                 'user_id' => fake()->numberBetween(4,6),
                 'location_id' => fake()->numberBetween(1,4),
             ];
@@ -159,7 +244,35 @@ class TransactionFactory extends Factory
             $randomTimestamp = Carbon::createFromTimestamp($randomTimestamp, 'UTC')->setTimezone('Asia/Bangkok')->addHours(7);
 
             $data['waktu'] = $this->formatTimestampInRange($randomTimestamp);
-            DB::table('transactions')->insert($data);
+            $reservation = Transaction::create($data);
+
+            $jumlahMenu = DB::table('menus')->count();
+            $hargaTotal = 0;
+            while($hargaTotal == 0)
+            {
+                for($m=1; $m <= $jumlahMenu; $m++)
+                {
+                    $menu = DB::table('menus')->where('id','=',$m)->first();
+                    $jumlahOrder = rand(0,4);
+                    if ($jumlahOrder > 0)
+                    {
+                        $orderData = [
+                            'quantity' => $jumlahOrder,
+                            'menu_id' => $m,
+                            'transaction_id' => $reservation->id,
+                        ];
+                        $hargaTotal = $hargaTotal + $menu->harga * $jumlahOrder;
+                        DB::table('orders')->insert($orderData);
+                    }
+                }
+            }
+            $promo = DB::table('promos')->where('id', '=', $reservation->promo_id)->first();
+            $promoPersenDiskon = $promo->persenDiskon;
+            $promoMaxDiskon = $promo->maxDiskon;
+            $totalDiskon = min($hargaTotal*$promoPersenDiskon/100, $promoMaxDiskon);
+            $hargaTotal = max($hargaTotal - $totalDiskon, 0);
+            $reservation->hargaTotal = $hargaTotal;
+            $reservation->save();
         }
     }
 
@@ -173,7 +286,7 @@ class TransactionFactory extends Factory
                 'statusTransaksi' => 'Selesai',
                 'noMeja' => fake()->numberBetween(1,15),
                 'isReservasi' => false,
-                'promo_id' => 1,
+                'promo_id' => fake()->numberBetween(1,4),
                 'user_id' => fake()->numberBetween(4,6),
                 'location_id' => fake()->numberBetween(1,4),
             ];
@@ -198,7 +311,35 @@ class TransactionFactory extends Factory
 
             $data['waktu'] = $randomTimestamp;
             $data['user_id'] = $userID;
-            DB::table('transactions')->insert($data);
+            $reservation = Transaction::create($data);
+
+            $jumlahMenu = DB::table('menus')->count();
+            $hargaTotal = 0;
+            while($hargaTotal == 0)
+            {
+                for($m=1; $m <= $jumlahMenu; $m++)
+                {
+                    $menu = DB::table('menus')->where('id','=',$m)->first();
+                    $jumlahOrder = rand(0,4);
+                    if ($jumlahOrder > 0)
+                    {
+                        $orderData = [
+                            'quantity' => $jumlahOrder,
+                            'menu_id' => $m,
+                            'transaction_id' => $reservation->id,
+                        ];
+                        $hargaTotal = $hargaTotal + $menu->harga * $jumlahOrder;
+                        DB::table('orders')->insert($orderData);
+                    }
+                }
+            }
+            $promo = DB::table('promos')->where('id', '=', $reservation->promo_id)->first();
+            $promoPersenDiskon = $promo->persenDiskon;
+            $promoMaxDiskon = $promo->maxDiskon;
+            $totalDiskon = min($hargaTotal*$promoPersenDiskon/100, $promoMaxDiskon);
+            $hargaTotal = max($hargaTotal - $totalDiskon, 0);
+            $reservation->hargaTotal = $hargaTotal;
+            $reservation->save();
         }
     }
 
@@ -237,7 +378,29 @@ class TransactionFactory extends Factory
 
             $data['waktu'] = $randomTimestamp;
             $data['user_id'] = $userID;
-            DB::table('transactions')->insert($data);
+            $reservation = Transaction::create($data);
+
+            $jumlahMenu = DB::table('menus')->count();
+            $hargaTotal = 0;
+            while($hargaTotal == 0)
+            {
+                for($m=1; $m <= $jumlahMenu; $m++)
+                {
+                    $menu = DB::table('menus')->where('id','=',$m)->first();
+                    $jumlahOrder = rand(0,4);
+                    if ($jumlahOrder > 0)
+                    {
+                        $orderData = [
+                            'quantity' => $jumlahOrder,
+                            'menu_id' => $m,
+                            'transaction_id' => $reservation->id,
+                        ];
+                        $hargaTotal = $hargaTotal + $menu->harga * $jumlahOrder;
+                        DB::table('orders')->insert($orderData);
+                    }
+                }
+            }
+            $reservation->save();
         }
     }
 
