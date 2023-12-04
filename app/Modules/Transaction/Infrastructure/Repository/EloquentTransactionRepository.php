@@ -17,9 +17,18 @@ class EloquentTransactionRepository implements TransactionRepository
 {
     public function getOngoingTransactions(): Collection
     {
-        $transactions = Cache::remember('ongoingTransactions', 120, function () {
-            return Transaction::where('statusTransaksi', '=', 'Sedang Berjalan')->orderBy('waktu')->get();
-        });
+        if(Auth::user()->role == 'pemilik')
+        {
+            $transactions = Cache::remember('ongoingTransactions', 120, function () {
+                return Transaction::where('statusTransaksi', '=', 'Sedang Berjalan')->orderBy('waktu')->get();
+            });
+        }
+        else
+        {
+            $transactions = Cache::remember('ongoingTransactions', 120, function () {
+                return Transaction::where('statusTransaksi', '=', 'Sedang Berjalan')->where('location_id','=',Auth::user()->location_id)->orderBy('waktu')->get();
+            });
+        }
 
         foreach($transactions as $transaction)
         {

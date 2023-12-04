@@ -218,7 +218,7 @@ class TransactionFactory extends Factory
             ];
 
             $currentYear = date('Y');
-            $firstDayTimestamp = mktime(0, 0, 0, 10, 1, $currentYear);
+            $firstDayTimestamp = Carbon::now()->startOfDay()->setHour(8)->timestamp;
             $currentTimestamp = time();
 
             $randomTimestamp = rand($firstDayTimestamp, $currentTimestamp);

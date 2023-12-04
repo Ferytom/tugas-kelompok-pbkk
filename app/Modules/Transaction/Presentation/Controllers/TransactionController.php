@@ -22,8 +22,9 @@ class TransactionController
     public function index()
     {
         $transactions = $this->transactionService->getOngoingTransactions();
+        $locations = $this->transactionService->getAllLocations();
 
-        return view('transaction::index', compact('transactions'));
+        return view('transaction::index', compact('transactions', 'locations'));
     }
 
     public function create()
