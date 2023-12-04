@@ -109,6 +109,11 @@ class TransactionController
 
         $transaction = $this->transactionService->getTransactionById($id);
 
+        if((Auth::user()->role != 'pemilik') && (Auth::user()->location_id != $transaction->location_id))
+        {
+            return redirect()->route('transaction.index')->with('success', 'You do not have permission to edit this reservation');
+        }
+
         $data = [
             'waktu' => $transaction->waktu,
             'keterangan' => $request->input('notes', $transaction->keterangan),

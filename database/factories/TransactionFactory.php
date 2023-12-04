@@ -172,7 +172,7 @@ class TransactionFactory extends Factory
                 'hargaTotal' => fake()->numberBetween(1,5)*50000,
                 'statusTransaksi' => 'Selesai',
                 'noMeja' => fake()->numberBetween(1,15),
-                'isReservasi' => true,
+                'isReservasi' => false,
                 'promo_id' => 1,
                 'user_id' => fake()->numberBetween(4,6),
                 'location_id' => fake()->numberBetween(1,4),
@@ -196,7 +196,7 @@ class TransactionFactory extends Factory
                 $userID = 6;
             }
 
-            $data['waktu'] = $this->formatTimestampInRange($randomTimestamp);
+            $data['waktu'] = $randomTimestamp;
             $data['user_id'] = $userID;
             DB::table('transactions')->insert($data);
         }
@@ -211,7 +211,7 @@ class TransactionFactory extends Factory
                 'hargaTotal' => fake()->numberBetween(1, 5) * 50000,
                 'statusTransaksi' => 'Sedang Berjalan',
                 'noMeja' => fake()->numberBetween(1, 15),
-                'isReservasi' => true,
+                'isReservasi' => false,
                 'promo_id' => 1,
                 'user_id' => fake()->numberBetween(4, 6),
                 'location_id' => fake()->numberBetween(1, 4),
@@ -235,7 +235,7 @@ class TransactionFactory extends Factory
                 $userID = 6;
             }
 
-            $data['waktu'] = $this->formatTimestampInRange($randomTimestamp);
+            $data['waktu'] = $randomTimestamp;
             $data['user_id'] = $userID;
             DB::table('transactions')->insert($data);
         }

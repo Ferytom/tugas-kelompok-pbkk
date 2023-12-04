@@ -99,7 +99,7 @@ class ReservationController
         $menus = $this->reservationService->getAllMenus();
         $promos = $this->reservationService->getAllPromos();
 
-        if((Auth::user()->role == 'pelanggan') && (Auth::user()->id != $reservation->user_id))
+        if(((Auth::user()->role == 'pelanggan') && (Auth::user()->id != $reservation->user_id)) || ((Auth::user()->role != 'pelanggan') && (Auth::user()->location_id != $reservation->location_id)))
         {
             return redirect()->route('reservation.index')->with('success', 'You do not have permission to edit this reservation');
         }
@@ -136,6 +136,20 @@ class ReservationController
         }
 
         $reservation = $this->reservationService->getReservationById($id);
+
+        if(((Auth::user()->role == 'pelanggan') && (Auth::user()->id != $reservation->user_id)) || ((Auth::user()->role != 'pelanggan') && (Auth::user()->location_id != $reservation->location_id)))
+        {
+            return redirect()->route('reservation.index')->with('success', 'You do not have permission to edit this reservation');
+        }
+
+        $currentDate = Carbon::now('Asia/Bangkok');
+        $reservationDate = Carbon::parse($reservation->waktu);
+
+        $hoursDifference = $currentDate->diffInHours($reservationDate);
+
+        if ($hoursDifference < 24+7) {
+            return redirect()->route('reservation.index')->with('success', 'You can only edit this reservation until H-24 hours');
+        }
 
         $data = [
             'waktu' => $request->input('datetime', $reservation->waktu),
@@ -180,7 +194,7 @@ class ReservationController
 
         $promo = $this->reservationService->getPromoById($id);
 
-        if((Auth::user()->role == 'pelanggan') && (Auth::user()->id != $reservation->user_id))
+        if(((Auth::user()->role == 'pelanggan') && (Auth::user()->id != $reservation->user_id)) || ((Auth::user()->role != 'pelanggan') && (Auth::user()->location_id != $reservation->location_id)))
         {
             return redirect()->route('reservation.index')->with('success', 'You do not have permission to view this reservation');
         }

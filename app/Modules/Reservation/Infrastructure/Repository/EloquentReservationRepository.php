@@ -130,9 +130,18 @@ class EloquentReservationRepository implements ReservationRepository
 
     public function getAllLocations(): Collection
     {
-        $locations = Cache::remember('locations', 120, function () {
-            return Location::all();
-        });
+        if(Auth::user()->role == 'pemilik')
+        {
+            $locations = Cache::remember('locations', 120, function () {
+                return Location::all();
+            });
+        }
+        else
+        {
+            $locations = Cache::remember('locations', 120, function () {
+                return Location::where('id', '=', Auth::user()->location_id)->get();
+            });
+        }
 
         return $locations;
     }
