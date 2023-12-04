@@ -39,7 +39,7 @@ class MenuController
         ]);
 
         $imagePath = $request->file('image')->store('public/assets/img/menu');
-        $filename = basename($imagePath);
+        $filename = 'storage/assets/img/menu/' . basename($imagePath);
 
         $data = [
             'nama' => $request->input('name'),

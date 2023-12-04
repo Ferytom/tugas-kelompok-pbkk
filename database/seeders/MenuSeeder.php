@@ -17,7 +17,7 @@ class MenuSeeder extends Seeder
             'nama' => 'Nasi Goreng',
             'harga' => 25000,
             'deskripsi' => 'Deskripsi Nasi Goreng',
-            'pathFoto' => 'nasi-goreng.jpeg',
+            'pathFoto' => 'storage/assets/img/menu/nasi-goreng.jpeg',
         ]);
 
         DB::table('menus')->insert([

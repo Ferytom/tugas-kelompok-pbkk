@@ -11,7 +11,7 @@
         <div class="menu-card-container">
                 @foreach($menus as $menu)
                         <div class="menu-card">
-                                <img src="{{asset('storage/assets/img/menu/' . $menu->pathFoto)}}" alt="{{ $menu->nama }}">
+                                <img src="{{asset($menu->pathFoto)}}" alt="{{ $menu->nama }}">
                                 <div class='name'> {{ $menu->nama }} </div>
                                 <div class='description'> {{ $menu->deskripsi }} </div>
                                 <div class='price'> Rp {{ $menu->harga }} </div>
