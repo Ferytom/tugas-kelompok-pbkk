@@ -491,6 +491,15 @@ body {
     border-color: #f5c6cb;
 }
 
+.text-xs {
+    border-radius: 4px;
+    margin-bottom: 20px;
+    position: relative;
+    color: #721c24;
+    background-color: #f7a1a8;
+    border-color: #f5c6cb;
+}
+
 .close {
     position: absolute;
     top: 0;
