@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Papercup</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
