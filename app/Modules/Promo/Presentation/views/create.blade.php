@@ -12,7 +12,7 @@
             @enderror
 
             <label for="detail">Promo Detail:</label>
-            <textarea name="description" id="detail" style="width: 100%">{{ old('detail') }}</textarea>
+            <textarea name="detail" id="detail" style="width: 100%">{{ old('detail') }}</textarea>
             @error('detail')
                 <span class="text-xs text-red-600">{{ $message }}</span>
             @enderror

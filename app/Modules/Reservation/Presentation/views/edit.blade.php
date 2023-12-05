@@ -121,11 +121,10 @@
                 <select name="reservation_status" id="reservation_status">
                     <option value="Belum Dimulai">Belum Dimulai</option>
                     <option value="Sedang Berjalan">Sedang Berjalan</option>
-                    <option value="Selesai">Selesai</option>
                 </select>
 
                 <label for="noMeja">Table Number:</label>
-                <input type="number" name="noMeja" id="noMeja" min="1">
+                <input type="number" name="noMeja" id="noMeja" min="1" value="{{$reservation->noMeja}}">
             @endif
 
             <br>
@@ -186,6 +185,8 @@
             return function() {
                 menuIds.splice(index, 1);
                 quantities.splice(index, 1);
+                prices.splice(index, 1);
+                names.splice(index, 1);
                 menuCount--;
 
                 updateMenuTable();

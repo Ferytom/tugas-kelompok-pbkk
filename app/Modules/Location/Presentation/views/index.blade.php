@@ -35,5 +35,5 @@
             @endforeach
         </tbody>
     </table>
-    <a href={{ route('employee.create') }} class='button'>Create New Employee</a>
+    <a href={{ route('location.create') }} class='button'>Create New Location</a>
 @endsection

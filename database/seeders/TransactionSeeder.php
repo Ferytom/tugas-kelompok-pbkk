@@ -17,7 +17,8 @@ class TransactionSeeder extends Seeder
         Transaction::factory()->octoberRecords(25);
         Transaction::factory()->novemberRecords(50);
         Transaction::factory()->decemberBeforeNowRecords(10);
-        Transaction::factory()->decemberAfterNowRecords(35);
+        Transaction::factory()->todayReservations(5);
+        Transaction::factory()->decemberAfterNowRecords(100);
         Transaction::factory()->offlineRecords(300);
         Transaction::factory()->ongoingTransactions(35);
         

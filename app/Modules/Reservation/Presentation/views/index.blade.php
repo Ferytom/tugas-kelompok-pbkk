@@ -51,7 +51,7 @@
                                 <a href="{{ route('reservation.edit', $reservation->id) }}" class="btn-info mr-2">Edit</a>
                             @endif
                             <a href="{{ route('reservation.detail', $reservation->id) }}" class="btn-indigo mr-2">Detail</a>
-                            @if($reservation->editable)
+                            @if(($reservation->editable) || (Auth::user()->role != 'pelanggan'))
                                 <form action="{{ route('reservation.destroy', $reservation->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')

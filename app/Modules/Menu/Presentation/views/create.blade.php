@@ -22,7 +22,7 @@
                     </div>
                     <div>
                         <label for="price">Menu Price:</label>
-                        <input type="text" name="price" id="price" value="{{ old('price') }}" oninput="previewPrice()">
+                        <input type="number" name="price" id="price" value="{{ old('price') }}" oninput="previewPrice()">
                         @error('price')
                             <span class="text-xs text-red-600">{{ $message }}</span>
                         @enderror

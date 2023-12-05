@@ -8,6 +8,7 @@
                 <th>User</th>
                 <th>Total Price</th>
                 <th>Address</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody id="data-table-body">
@@ -17,6 +18,7 @@
                     <td>{{ $reservation->member }}</td>
                     <td>{{ $reservation->hargaTotal }}</td>
                     <td>{{ $reservation->address }}</td>
+                    <td><a href="{{ route('reservation.detail', $reservation->id) }}" class="btn-indigo mr-2">Detail</a></td>
                 </tr>
             @endforeach
         </tbody>

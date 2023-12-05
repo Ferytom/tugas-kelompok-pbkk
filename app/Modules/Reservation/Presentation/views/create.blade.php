@@ -120,6 +120,8 @@
             return function() {
                 menuIds.splice(index, 1);
                 quantities.splice(index, 1);
+                prices.splice(index, 1);
+                names.splice(index, 1);
                 menuCount--;
 
                 updateMenuTable();

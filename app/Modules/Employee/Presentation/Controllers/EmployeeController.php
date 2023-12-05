@@ -65,7 +65,8 @@ class EmployeeController
     public function edit($id)
     {
         $employee = $this->employeeService->getEmployeeById($id);
-        return view('employee.edit', compact('employee'));
+        $locations = $this->employeeService->getAllLocations();
+        return view('employee::edit', compact('employee', 'locations'));
     }
 
     public function update(Request $request, $id)

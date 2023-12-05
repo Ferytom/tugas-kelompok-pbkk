@@ -103,8 +103,8 @@
             </div>
 
             <div style="display: flex; align-items: center;">
-                <label for="reservation_status" style="padding-right: 20px">Reservation Status:</label>
-                <select name="reservation_status" id="reservation_status">
+                <label for="transaction_status" style="padding-right: 20px">Transaction Status:</label>
+                <select name="transaction_status" id="transaction_status">
                     <option value="Sedang Berjalan">Sedang Berjalan</option>
                     <option value="Selesai">Selesai</option>
                 </select>
@@ -171,6 +171,8 @@
             return function() {
                 menuIds.splice(index, 1);
                 quantities.splice(index, 1);
+                prices.splice(index, 1);
+                names.splice(index, 1);
                 menuCount--;
 
                 updateMenuTable();

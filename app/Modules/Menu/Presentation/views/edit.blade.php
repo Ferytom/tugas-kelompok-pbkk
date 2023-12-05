@@ -35,7 +35,7 @@
         </div>
         <div class="preview-menu-card-container">
             <div class="preview-menu-card">
-                <img id="imagePreview" src="{{asset('storage/assets/img/menu/' . $menu->pathFoto)}}" alt="Preview" style="max-width: 200px; margin-top: 10px;">
+                <img id="imagePreview" src="{{asset($menu->pathFoto)}}" alt="Preview" style="max-width: 200px; margin-top: 10px;">
                 <div id="namePreview" class='name'>{{$menu->nama}}</div>
                 <div id="descriptionPreview" class='description'>{{$menu->deskripsi}}</div>
                 <div id="pricePreview" class='price'>Rp {{$menu->harga}}</div>

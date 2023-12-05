@@ -54,20 +54,20 @@ class EloquentReservationRepository implements ReservationRepository
         if(Auth::user()->role == 'pemilik')
         {
             $ongoing_reservations = Cache::remember('ongoing_reservations', 120, function () {
-                $current_date = Carbon::now('Asia/Bangkok')->endOfDay();
-                return Transaction::where('waktu', '>=', $current_date)->where('isReservasi', '=', True)->orderBy('waktu')->get();
+                $current_date = Carbon::now('Asia/Bangkok');
+                return Transaction::where('waktu', '>=', $current_date)->where('isReservasi', '=', True)->where('statusTransaksi', '=', 'Belum Dimulai')->orderBy('waktu')->get();
             });
         } else if(Auth::user()->role == 'pelanggan')
         {
             $ongoing_reservations = Cache::remember('ongoing_reservations'  . Auth::user()->id, 120, function () {
-                $current_date = Carbon::now('Asia/Bangkok')->endOfDay();
+                $current_date = Carbon::now('Asia/Bangkok')->startOfDay();
                 return Transaction::where('waktu', '>=', $current_date)->where('isReservasi', '=', True)->where('user_id', '=', Auth::user()->id)->orderBy('waktu')->get();
             });
         } else
         {
             $ongoing_reservations = Cache::remember('ongoing_reservations'  . Auth::user()->id, 120, function () {
-                $current_date = Carbon::now('Asia/Bangkok')->endOfDay();
-                return Transaction::where('waktu', '>=', $current_date)->where('isReservasi', '=', True)->where('location_id', '=', Auth::user()->location_id)->orderBy('waktu')->get();
+                $current_date = Carbon::now('Asia/Bangkok')->startOfDay();
+                return Transaction::where('waktu', '>=', $current_date)->where('isReservasi', '=', True)->where('statusTransaksi', '=', 'Belum Dimulai')->where('location_id', '=', Auth::user()->location_id)->orderBy('waktu')->get();
             });
         }
 
@@ -84,7 +84,7 @@ class EloquentReservationRepository implements ReservationRepository
 
             $hoursDifference = $currentDate->diffInHours($reservationDate);
 
-            if ($hoursDifference > 24+7) {
+            if ($hoursDifference > 24) {
                 $reservation->editable = true;
             } else {
                 $reservation->editable = false;
@@ -149,7 +149,8 @@ class EloquentReservationRepository implements ReservationRepository
     public function getAllPromos(): Collection
     {
         $promos = Cache::remember('promos', 120, function () {
-            return Promo::all();
+            $current_date = Carbon::now()->format('Y-m-d');
+            return Promo::where('expired', '>=', $current_date)->get();
         });
 
         return $promos;
@@ -168,7 +169,7 @@ class EloquentReservationRepository implements ReservationRepository
     {
         $reservation = Transaction::findOrFail($reservationId);
         
-        $location = User::findOrFail($reservation->location_id);
+        $location = Location::findOrFail($reservation->location_id);
         $reservation->alamat = $location->alamat;
 
         $member = User::findOrFail($reservation->user_id);

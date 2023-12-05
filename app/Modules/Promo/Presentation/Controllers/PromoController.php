@@ -5,6 +5,8 @@ namespace App\Modules\Promo\Presentation\Controllers;
 use App\Modules\Promo\Core\Application\Service\PromoService;
 use Cache;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class PromoController
 {
@@ -31,13 +33,21 @@ class PromoController
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'detail' => 'required',
             'persenDiskon' => 'required|numeric|min:0|max:100',
             'maxDiskon' => 'required|numeric|min:0',
-            'expired' => 'required|date'
+            'expired' => function ($attribute, $value, $failed) {
+                if (Carbon::parse($value) < Carbon::now()->startOfDay()) {
+                    $failed('Promo must be made for the future.');
+                }
+            },
         ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
 
         $data = [
             'nama' => $request->input('nama'),
@@ -63,11 +73,19 @@ class PromoController
 
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'persenDiskon' => 'numeric|min:0|max:100',
             'maxDiskon' => 'numeric|min:0',
-            'expired' => 'date'
+            'expired' => function ($attribute, $value, $failed) {
+                if (Carbon::parse($value) < Carbon::now()->startOfDay()) {
+                    $failed('Promo must be made for the future.');
+                }
+            },
         ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
 
         $promo = $this->promoService->getPromoById($id);
 

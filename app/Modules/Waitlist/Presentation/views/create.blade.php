@@ -6,7 +6,7 @@
             @csrf
             <label for="nama">Name:</label>
             <input type="text" name="nama" id="nama" value="{{ old('nama') }}">
-            @error('detail')
+            @error('nama')
                 <span class="text-xs text-red-600">{{ $message }}</span>
             @enderror
             

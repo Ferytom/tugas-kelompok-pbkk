@@ -21,7 +21,7 @@ class EloquentNotificationRepository implements NotificationRepository
             $notifications = Cache::remember('notifications', 120, function () {
                 $current_date = Carbon::now('Asia/Bangkok');
                 $tomorow_date = Carbon::tomorrow('Asia/Bangkok');
-                return Transaction::where('waktu', '<', $tomorow_date)->where('waktu', '>', $current_date)->where('isReservasi', '=', True)->orderBy('waktu')->get();
+                return Transaction::where('waktu', '<', $tomorow_date)->where('waktu', '>', $current_date)->where('isReservasi', '=', True)->where('statusTransaksi', '=', 'Belum Dimulai')->orderBy('waktu')->get();
             });
         }
         else
@@ -29,7 +29,7 @@ class EloquentNotificationRepository implements NotificationRepository
             $notifications = Cache::remember('notifications', 120, function () {
                 $current_date = Carbon::now('Asia/Bangkok');
                 $tomorow_date = Carbon::tomorrow('Asia/Bangkok');
-                return Transaction::where('waktu', '<', $tomorow_date)->where('waktu', '>', $current_date)->where('isReservasi', '=', True)->where('location_id','=',Auth::user()->location_id)->orderBy('waktu')->get();
+                return Transaction::where('waktu', '<', $tomorow_date)->where('waktu', '>', $current_date)->where('isReservasi', '=', True)->where('statusTransaksi', '=', 'Belum Dimulai')->where('location_id','=',Auth::user()->location_id)->orderBy('waktu')->get();
             });
         }
 

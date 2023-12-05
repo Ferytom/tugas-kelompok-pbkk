@@ -26,6 +26,11 @@ class ReservationController
         $expired_reservations = $this->reservationService->getExpiredReservations();
         $locations = $this->reservationService->getAllLocations();
 
+        foreach($ongoing_reservations as $reservation)
+        {
+            $reservation->currentDate = Carbon::now('Asia/Bangkok')->startOfDay();
+        }
+
         return view('reservation::index', compact('completed_reservations', 'ongoing_reservations', 'expired_reservations', 'locations'));
     }
 
@@ -46,10 +51,10 @@ class ReservationController
             'address' => 'required|exists:locations,id',
             'datetime' => function ($attribute, $value, $failed) {
                 if (Carbon::parse($value) < Carbon::now()->addDay()->startOfDay()) {
-                    $failed('The date must be in the future.');
+                    $failed('Reservation must be made at least 1 day prior.');
                 }
-                if (Carbon::parse($value)->hour < 9 || Carbon::parse($value)->hour > 21) {
-                    $failed('The time must be between 9 AM and 9 PM.');
+                if (Carbon::parse($value)->hour < 8 || Carbon::parse($value)->hour > 21) {
+                    $failed('The time must be between 8 AM and 9 PM.');
                 }
             },
             'total_price' => 'required|numeric',
@@ -88,6 +93,7 @@ class ReservationController
         Cache::forget('ongoing_reservations');
         Cache::forget('ongoingTransactions');
         Cache::forget('completedTransactions');
+        Cache::forget('notifications');
 
         return redirect()->route('reservation.index')->with('success', 'Reservation created successfully');
     }
@@ -100,7 +106,7 @@ class ReservationController
         $menus = $this->reservationService->getAllMenus();
         $promos = $this->reservationService->getAllPromos();
 
-        if(((Auth::user()->role == 'pelanggan') && (Auth::user()->id != $reservation->user_id)) || ((Auth::user()->role != 'pelanggan') && (Auth::user()->location_id != $reservation->location_id)))
+        if(((Auth::user()->role == 'pelanggan') && (Auth::user()->id != $reservation->user_id)) || ((Auth::user()->role != 'pelanggan') && (Auth::user()->role != 'pemilik') && (Auth::user()->location_id != $reservation->location_id)))
         {
             return redirect()->route('reservation.index')->with('error', 'You do not have permission to edit this reservation');
         }
@@ -110,7 +116,7 @@ class ReservationController
 
         $hoursDifference = $currentDate->diffInHours($reservationDate);
 
-        if ($hoursDifference < 24+7) {
+        if (((Auth::user()->role == 'pelanggan')) && ($hoursDifference < 24)) {
             return redirect()->route('reservation.index')->with('error', 'You can only edit this reservation until H-24 hours');
         }
 
@@ -123,11 +129,11 @@ class ReservationController
             'address' => 'exists:locations,id',
             'noMeja' => 'numeric',
             'datetime' => function ($attribute, $value, $failed) {
-                if (Carbon::parse($value) < Carbon::now()->addDay()->startOfDay()) {
+                if ((Auth::user()->role == 'pelanggan') && (Carbon::parse($value) < Carbon::now()->addDay()->startOfDay())) {
                     $failed('The date must be in the future.');
                 }
-                if (Carbon::parse($value)->hour < 9 || Carbon::parse($value)->hour > 21) {
-                    $failed('The time must be between 9 AM and 9 PM.');
+                if (Carbon::parse($value)->hour < 8 || Carbon::parse($value)->hour > 21) {
+                    $failed('The time must be between 8 AM and 9 PM.');
                 }
             },
             'total_price' => 'numeric',
@@ -138,7 +144,7 @@ class ReservationController
 
         $reservation = $this->reservationService->getReservationById($id);
 
-        if(((Auth::user()->role == 'pelanggan') && (Auth::user()->id != $reservation->user_id)) || ((Auth::user()->role != 'pelanggan') && (Auth::user()->location_id != $reservation->location_id)))
+        if(((Auth::user()->role == 'pelanggan') && (Auth::user()->id != $reservation->user_id)) || ((Auth::user()->role != 'pelanggan') && (Auth::user()->role != 'pemilik') && (Auth::user()->location_id != $reservation->location_id)))
         {
             return redirect()->route('reservation.index')->with('error', 'You do not have permission to edit this reservation');
         }
@@ -148,7 +154,7 @@ class ReservationController
 
         $hoursDifference = $currentDate->diffInHours($reservationDate);
 
-        if ($hoursDifference < 24+7) {
+        if (((Auth::user()->role == 'pelanggan')) && ($hoursDifference < 24)) {
             return redirect()->route('reservation.index')->with('success', 'You can only edit this reservation until H-24 hours');
         }
 
@@ -160,7 +166,7 @@ class ReservationController
             'statusTransaksi' => $request->input('reservation_status', $reservation->statusTransaksi),
             'isReservasi' => True,
             'promo_id' => $request->input('promo', $reservation->promo),
-            'user_id' => Auth::user()->id,
+            'user_id' => $reservation->user_id,
             'location_id' => $request->input('address', $reservation->location_id),
         ];
         
@@ -184,8 +190,9 @@ class ReservationController
         Cache::forget('completedTransactions');
         Cache::forget('transactions:' . $id);
         Cache::forget('orders: ' . $id);
+        Cache::forget('notifications');
         
-        return redirect()->route('reservation:index')->with('success', 'Reservation has been updated');    
+        return redirect()->route('reservation.index')->with('success', 'Reservation has been updated');    
     }
 
     public function detail($id)
@@ -213,7 +220,7 @@ class ReservationController
 
             $hoursDifference = $currentDate->diffInHours($reservationDate);
 
-            if ($hoursDifference < 24+7) {
+            if (((Auth::user()->role == 'pelanggan')) && ($hoursDifference < 24)) {
                 return redirect()->route('reservation.index')->with('error', 'You can only delete this reservation until H-24 hours');
             }
             

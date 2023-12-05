@@ -46,7 +46,7 @@
             </div>
 
             <div class="location-container" style="padding-bottom: 10px">
-                <label for="location_id">Role: </label>
+                <label for="location_id">Location: </label>
                 <select id="location_id" name="location_id">
                     @foreach($locations as $location)
                         <option value="{{$location->id}}">{{$location->alamat}}</option>
