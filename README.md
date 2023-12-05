@@ -1,2 +1,4 @@
-1) Jalankan ```php artisan storage:link```
-2) Jalankan ```php artisan migrate:fresh --seed```
+1) Jalankan ```php artisan storage:link```  
+2) Jalankan ```php artisan migrate:fresh --seed```  
+
+Link youtube : https://youtu.be/EdPbaKYETOY
